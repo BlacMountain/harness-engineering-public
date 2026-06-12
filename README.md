@@ -4,7 +4,7 @@
 
 核心文档：
 
-- [AGENTS.md](AGENTS.md)：本仓库唯一 Agent 入口文件。
+- [AGENTS.md](AGENTS.md)：本仓库 Agent 入口文件。
 - [HARNESS_QUICKSTART.md](HARNESS_QUICKSTART.md)：Agent 初始化决策树。
 - [templates/](templates)：按 project type 提供的最小 harness 模板。
 - [docs/HARNESS_GUIDE.md](docs/HARNESS_GUIDE.md)：通用 harness 解释文档。
