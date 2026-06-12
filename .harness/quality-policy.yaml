@@ -17,6 +17,6 @@ minimum_checks:
   - command entry points exist and are executable
   - .gitignore covers git forbidden paths
   - large files are not tracked or staged
-  - legacy Agent.md entry is absent
+  - single AGENTS.md entry is enforced
   - seed templates exist for each project type
   - docs are not required for target startup after template bootstrap

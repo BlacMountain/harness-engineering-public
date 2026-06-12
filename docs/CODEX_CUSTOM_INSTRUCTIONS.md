@@ -20,7 +20,6 @@
 硬性规则：
 
 1. AGENTS.md 是唯一 Agent 入口文件。
-   - 默认创建 AGENTS.md，不创建 Agent.md。
    - AGENTS.md 应保持简短，只做入口地图、强制流程和关键禁令。
    - 详细规则放入 .harness/*.yaml 和 docs/*.md。
 
@@ -90,10 +89,14 @@
 - README.md
 - ARCHITECTURE.md
 - docs/GIT_POLICY.md
+- docs/product-specs/README.md
 - docs/product-specs/index.md
+- docs/exec-plans/README.md
 - docs/exec-plans/active/
 - docs/exec-plans/completed/
 - docs/exec-plans/tech-debt-tracker.md
+- docs/decisions/README.md
+- docs/references/README.md
 - docs/QUALITY.md
 - docs/RELIABILITY.md
 - docs/SECURITY.md
@@ -105,7 +108,7 @@
 ```text
 创建或初始化任何工程时，先参考本地 harness 指导工程：/Users/wuyou/WorkingZone/harness-engineering。优先阅读 AGENTS.md、HARNESS_QUICKSTART.md 和 templates/。
 
-AGENTS.md 是唯一 Agent 入口；不创建 Agent.md。该参考工程是 Harness Seed Repository：先读 AGENTS.md 和 HARNESS_QUICKSTART.md，判断目标项目类型，然后从 templates/<project-type>/ 初始化目标项目本地 harness。
+AGENTS.md 是唯一 Agent 入口。该参考工程是 Harness Seed Repository：先读 AGENTS.md 和 HARNESS_QUICKSTART.md，判断目标项目类型，然后从 templates/<project-type>/ 初始化目标项目本地 harness。
 
 新项目必须先判断 project type 和 workspace type。project type 包括 source-repo、infra-repo、research-repo、deployment-repo、knowledge-repo。workspace type 包括 single-repo、mono-repo、mono-workspace。边界不清晰时先反馈，不允许直接 git init .。
 

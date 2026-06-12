@@ -77,6 +77,13 @@ Every long-lived target project should have:
 - `README.md`
 - `ARCHITECTURE.md`
 - `docs/GIT_POLICY.md`
+- `docs/product-specs/index.md`
+- `docs/exec-plans/active/`
+- `docs/exec-plans/completed/`
+- `docs/exec-plans/tech-debt-tracker.md`
+- `docs/QUALITY.md`
+- `docs/RELIABILITY.md`
+- `docs/SECURITY.md`
 - `scripts/harness-check`
 
 Code projects should also provide `setup`, `lint`, `test`, and `dev` or `run`

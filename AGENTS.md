@@ -1,11 +1,11 @@
 # AGENTS.md
 
-This is a Harness Seed Repository. Use it to bootstrap target projects, not as
-the long-term source of rules for those projects.
+This is a Harness Seed Repository. Use it to bootstrap target projects. Do not
+use it as the long-term rule source for target projects.
 
 ## Startup Protocol
 
-Before doing any code work in a target project:
+Before doing code work in a target project:
 
 1. Identify the workspace boundary.
 2. Identify the repository boundary.
@@ -21,14 +21,24 @@ Before doing any code work in a target project:
 - `infra-repo`: Terraform, Ansible, Helm, Kubernetes, Docker Compose, or infra.
 - `research-repo`: experiments, training code, configs, and reproducible runs.
 - `deployment-repo`: deployment orchestration, release scripts, env templates.
-- `knowledge-repo`: docs, policy, guidelines, and reusable operational knowledge.
+- `knowledge-repo`: docs, policy, guidelines, and operational knowledge.
 
 Use `HARNESS_QUICKSTART.md` when project type or workspace type is unclear.
+
+## Docs Management
+
+For seed repository documentation changes:
+
+1. Use root `README.md` to choose the correct destination.
+2. Read the target docs directory `README.md` before editing files there.
+3. Keep durable rules in `.harness/*.yaml` before explaining them in docs.
+4. Keep docs explanatory; do not put startup-only rules only in `docs/`.
+5. Update `scripts/harness-check` when a docs structure rule must be enforced.
 
 ## Hard Rules
 
 - MUST NOT run `git init .` until workspace and repository boundaries are clear.
-- MUST NOT rely on this seed repository as the long-term policy for a target.
+- MUST NOT rely on this seed repository as target-project long-term policy.
 - MUST copy or generate target-local `AGENTS.md`, `.harness/`, and checks.
 - MUST run `git status --short` before edits in an existing repository.
 - MUST preserve user changes and never revert work unless explicitly requested.
@@ -42,9 +52,6 @@ For changes to this seed repository, run:
 - `scripts/harness-check`
 - `scripts/lint`
 - `scripts/test`
-
-For docs changes in this seed repository, route through root `README.md` and
-the target docs directory README. Keep detailed docs rules out of this file.
 
 ## Completion Report
 

@@ -1,44 +1,49 @@
 # Harness Seed Repository
 
-这是一个 Harness Seed Repository，用于初始化下游项目的本地 harness。它不是普通文档仓库，也不要求 Agent 每次开发都回头依赖这里；正确用法是第一次初始化时从这里复制/生成目标项目自己的 `AGENTS.md`、`.harness/*.yaml`、`scripts/harness-check` 和 Git policy。
+本仓库用于为目标项目初始化本地 harness。它提供启动协议、项目类型判断、可复制骨架、机器可读策略、文档规则和验证入口。目标项目完成初始化后，应以目标项目内的 `AGENTS.md`、`.harness/*.yaml` 和验证脚本作为长期约束源。
 
-核心文档：
+本仓库不作为目标项目的长期外部规则依赖。
 
-- [AGENTS.md](AGENTS.md)：本仓库 Agent 入口文件。
-- [HARNESS_QUICKSTART.md](HARNESS_QUICKSTART.md)：Agent 初始化决策树。
-- [templates/](templates)：按 project type 提供的最小 harness 模板。
-- [docs/HARNESS_GUIDE.md](docs/HARNESS_GUIDE.md)：通用 harness 解释文档。
-- [docs/GIT_POLICY.md](docs/GIT_POLICY.md)：Git、仓库边界和版本控制规则。
-- [docs/PROJECT_TYPES.md](docs/PROJECT_TYPES.md)：项目类型、入库规则、artifact 和命令要求。
-- [docs/CODEX_CUSTOM_INSTRUCTIONS.md](docs/CODEX_CUSTOM_INSTRUCTIONS.md)：可直接放入 Codex 的自定义指令模板。
-- [.harness/](.harness)：机器可读 policy source of truth。
+## 功能边界
 
-## Seed 功能地图
+| 功能 | 入口 |
+| --- | --- |
+| Agent 启动协议 | `AGENTS.md` |
+| 初始化决策树 | `HARNESS_QUICKSTART.md` |
+| 可复制项目骨架 | `templates/<project-type>/` |
+| 项目类型规则 | `docs/PROJECT_TYPES.md` |
+| Git 与版本控制规则 | `docs/GIT_POLICY.md`、`.harness/git-policy.yaml` |
+| 质量规则 | `docs/QUALITY.md`、`.harness/quality-policy.yaml` |
+| 可靠性规则 | `docs/RELIABILITY.md` |
+| 安全规则 | `docs/SECURITY.md` |
+| 机器可读约束 | `.harness/*.yaml` |
+| 通用建设原则 | `docs/HARNESS_GUIDE.md` |
+| Codex 自定义指令 | `docs/CODEX_CUSTOM_INSTRUCTIONS.md` |
 
-- Agent 启动协议：`AGENTS.md`
-- 初始化决策树：`HARNESS_QUICKSTART.md`
-- 可复制骨架：`templates/<project-type>/`
-- 项目类型判断：`docs/PROJECT_TYPES.md`
-- Git 规则：`docs/GIT_POLICY.md`
-- 质量规则：`docs/QUALITY.md`
-- 可靠性规则：`docs/RELIABILITY.md`
-- 安全规则：`docs/SECURITY.md`
-- 机器可读约束：`.harness/*.yaml`
+## 初始化流程
 
-## 文档写入路由
+1. 读取 `AGENTS.md`，执行启动协议。
+2. 使用 `HARNESS_QUICKSTART.md` 判断目标项目的 workspace type、repository boundary 和 project type。
+3. 目标项目缺少 `.harness/` 时，从 `templates/<project-type>/` 初始化最小 harness。
+4. 初始化后切换到目标项目本地 `AGENTS.md` 和 `.harness/*.yaml`。
+5. 将长期规则沉淀到目标项目本地 policy、脚本、测试、lint 或 CI。
 
-- 写“系统应该是什么”：`docs/product-specs/`
-- 写“本次任务怎么做”：`docs/exec-plans/active/`
-- 写“完成了什么、学到了什么”：`docs/exec-plans/completed/`
-- 写“剩余技术债”：`docs/exec-plans/tech-debt-tracker.md`
-- 写“为什么这样决策”：`docs/decisions/`
-- 写“依据来自哪里”：`docs/references/`
-- 写长期 Git 规则：`docs/GIT_POLICY.md` 和 `.harness/git-policy.yaml`
-- 写长期质量规则：`docs/QUALITY.md` 和 `.harness/quality-policy.yaml`
-- 写长期可靠性规则：`docs/RELIABILITY.md`
-- 写长期安全规则：`docs/SECURITY.md`
+## 文档路由
 
-目录内如果有本地 `README.md`，以本地说明为准。根 `README.md` 只负责路由，不承载所有写作细节。
+| 写入内容 | 位置 | 说明 |
+| --- | --- | --- |
+| 系统应具备的能力、用户流程、验收标准 | `docs/product-specs/` | 先读 `docs/product-specs/README.md` |
+| 当前任务的实施步骤、风险、验证方式 | `docs/exec-plans/active/` | 先读 `docs/exec-plans/README.md` |
+| 已完成任务的结果和验证记录 | `docs/exec-plans/completed/` | 完成后从 `active` 迁移 |
+| 剩余技术债 | `docs/exec-plans/tech-debt-tracker.md` | 记录可追踪的后续事项 |
+| 长期架构或策略决策 | `docs/decisions/` | 先读 `docs/decisions/README.md` |
+| 外部依据、协议、论文、平台说明 | `docs/references/` | 先读 `docs/references/README.md` |
+| Git 长期规则 | `docs/GIT_POLICY.md`、`.harness/git-policy.yaml` | 文档解释规则，policy 承载机器约束 |
+| 质量长期规则 | `docs/QUALITY.md`、`.harness/quality-policy.yaml` | 与验证命令保持一致 |
+| 可靠性长期规则 | `docs/RELIABILITY.md` | 覆盖失败、恢复、观测要求 |
+| 安全长期规则 | `docs/SECURITY.md` | 覆盖 secret、权限、输入和执行边界 |
+
+目录内存在 `README.md` 时，以目录本地说明为准。根 `README.md` 只提供路由。
 
 ## 常用命令
 
@@ -50,14 +55,6 @@ scripts/dev
 scripts/harness-check
 ```
 
-## 使用方式
-
-1. 先阅读根目录 `AGENTS.md`，遵守启动协议。
-2. 用 `HARNESS_QUICKSTART.md` 判断目标项目的 workspace type、repository 边界和 project type。
-3. 如果目标项目缺少 `.harness/`，从 `templates/<project-type>/` 初始化最小 harness。
-4. 初始化后切换到目标项目自己的 `AGENTS.md` 和 `.harness/*.yaml`。
-5. 将反复出现的问题升级为目标项目本地的脚本、测试、lint 或 CI。
-
 ## 适用范围
 
-本 seed 适用于需要让 Agent 可持续参与开发、测试、修复、审查和维护的软件项目。它不绑定具体语言或框架；若目标项目包含代码实现，应按项目技术栈补充独立虚拟环境、依赖管理和验证命令。
+本 seed 适用于需要让 Agent 长期参与开发、测试、修复、审查和维护的软件项目。目标项目包含代码实现时，应按技术栈补充隔离依赖环境、依赖管理、运行命令和验证命令。

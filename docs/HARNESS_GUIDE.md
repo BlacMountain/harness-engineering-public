@@ -221,7 +221,7 @@ Agent NEVER 在 workspace 根目录默认执行 `git init .`。如果 workspace/
 
 说明：
 
-- `AGENTS.md` 是唯一 Agent 入口文件，不保留 `Agent.md` 兼容入口。
+- `AGENTS.md` 是唯一 Agent 入口文件。
 - `HARNESS_QUICKSTART.md` 是初始化决策树。
 - `templates/<project-type>/` 是可复制的最小目标项目 harness。
 - `.harness/*.yaml` 是 durable policy source of truth。

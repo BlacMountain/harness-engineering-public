@@ -1,29 +1,36 @@
-# Reliability
+# Reliability Policy
 
-The harness must make Agent work repeatable.
+本文件定义 harness 的可重复执行、失败诊断和恢复要求。目标是让 Agent 能通过稳定入口复现问题、运行验证、定位失败并继续推进。
 
 ## 使用方式
 
 什么时候读：
 
-- 变更会影响启动、重试、超时、回滚、日志或观测能力时。
-- 需要说明失败后如何诊断或恢复时。
-- 本地验证无法完全覆盖运行风险时。
+- 变更会影响项目启动、测试、命令入口、日志、回滚或恢复路径。
+- 新增后台任务、服务、部署流程或外部依赖。
+- 本地验证无法覆盖全部运行风险，需要记录人工验证或剩余风险。
 
 什么时候更新：
 
-- 新增服务、后台任务、部署流程或外部依赖。
 - 新增或改变超时、重试、幂等、回滚、日志、指标要求。
-- 发现某类失败无法被 Agent 复现或诊断时。
+- 发现某类失败无法被 Agent 复现、定位或验证。
+- 命令入口的输出格式、失败行为或依赖环境发生变化。
 
-MUST:
+## 必守规则
 
-- Provide stable command entry points.
-- Fail checks with clear messages and non-zero exit codes.
-- Keep generated artifacts out of git.
-- Document any manual verification that cannot be automated yet.
+- 所有长期项目必须提供稳定的验证入口。
+- 检查脚本失败时必须返回非零退出码，并输出可执行的错误信息。
+- 生成物、缓存、数据、模型和运行输出不得进入 git。
+- 无法自动化的验证必须在完成报告或执行计划中说明。
 
-SHOULD:
+## 建议要求
 
-- Keep policy schemas simple enough for Agents and scripts to inspect.
-- Add CI once the guide is used by multiple active projects.
+- 服务类项目应记录日志位置、启动失败排查方式和关键环境变量。
+- 部署类项目应记录回滚方式和 dry-run 或 plan 命令。
+- 研究类项目应记录 artifact store、数据来源和结果复现方式。
+
+## 禁止事项
+
+- 不依赖聊天记录保存复现步骤。
+- 不让命令静默失败。
+- 不把临时脚本变成未记录的事实依赖。

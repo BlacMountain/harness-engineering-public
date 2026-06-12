@@ -7,21 +7,22 @@ run, and how Agent changes stay reviewable.
 
 什么时候读：
 
-- 初始化或判断 repository 边界时。
-- 修改 `.gitignore`、artifact 目录、数据目录或生成物路径时。
-- 准备 stage、commit、push 或创建 PR 前。
+- 初始化项目或判断 repository boundary。
+- 修改 `.gitignore`、artifact 目录、数据目录或生成物路径。
+- 准备 stage、commit、push 或创建 PR。
+- 处理 research、deployment 或 infra 项目的大文件和运行产物。
 
 什么时候更新：
 
-- 新增 project type、artifact store 或生成目录时。
-- 发现 Agent 反复误提交某类文件时。
-- `.harness/git-policy.yaml` 或 `.gitignore` 的规则发生变化时。
+- 新增 project type、artifact store、生成目录或禁止入库路径。
+- 发现 Agent 反复误提交某类文件。
+- `.harness/git-policy.yaml` 或 `.gitignore` 发生变化。
 
-关系：
+规则关系：
 
-- `.harness/git-policy.yaml` 是机器可读规则。
-- `.gitignore` 是本地执行边界。
-- 本文档解释规则原因、使用场景和人工判断。
+- `.harness/git-policy.yaml` 保存机器可读规则。
+- `.gitignore` 执行本地忽略边界。
+- 本文档解释规则原因、适用场景和人工判断方式。
 
 ## Repository Types
 

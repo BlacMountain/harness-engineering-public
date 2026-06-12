@@ -1,23 +1,22 @@
 # Project Types
 
-Project type decides what gets versioned, which commands are required, whether
-an isolated environment is needed, and where artifacts belong.
+Project type 决定目标项目的入库范围、依赖隔离方式、artifact 管理方式和最低命令入口。初始化目标项目时，必须先判断 project type，再选择 `templates/<project-type>/`。
 
-## Summary Matrix
+## 类型矩阵
 
-| Type | Git Source Of Truth | Not In Git | Isolated Env | Artifact Store | Required Commands |
+| 类型 | 入库内容 | 禁止入库 | 隔离环境 | Artifact 位置 | 必需命令 |
 | --- | --- | --- | --- | --- | --- |
-| `source-repo` | source, tests, docs, manifests, config templates | envs, dependencies, build output, coverage, data, checkpoints, secrets | yes | optional | setup, lint, test, dev, harness-check |
-| `infra-repo` | Terraform, Ansible, Helm, Kubernetes, Compose, runbooks | secrets, credentials, state with sensitive values, generated plans | usually no | state backend or registry | setup, lint, test, harness-check |
-| `research-repo` | code, configs, docs, lightweight fixtures | data, datasets, checkpoints, models, outputs, results, secrets | yes | NAS, S3, Hugging Face, registry | setup, lint, test, harness-check |
-| `deployment-repo` | deployment scripts, manifests, env templates, runbooks | secrets, releases, generated artifacts, machine state | usually no | registry or release store | setup, lint, test, harness-check |
-| `knowledge-repo` | docs, policy, templates, validation scripts | secrets, local envs, generated artifacts | no by default | local-unmanaged | lint, test, harness-check |
+| `source-repo` | 源码、测试、文档、依赖清单、配置模板 | 虚拟环境、依赖目录、构建产物、覆盖率、数据、checkpoint、secret | 必需 | 可选，按项目需要 | setup、lint、test、dev、harness-check |
+| `infra-repo` | Terraform、Ansible、Helm、Kubernetes、Compose、runbook | secret、credential、敏感 state、生成 plan | 通常不强制 | state backend、registry、secret manager | setup、lint、test、harness-check |
+| `research-repo` | code、configs、docs、轻量 fixtures、复现实验脚本 | data、datasets、models、checkpoints、outputs、results、secret | 必需 | NAS、S3、Hugging Face、model registry | setup、lint、test、harness-check |
+| `deployment-repo` | 部署脚本、manifest、环境模板、runbook | secret、release 包、生成 artifact、机器状态 | 通常不强制 | registry、release store | setup、lint、test、harness-check |
+| `knowledge-repo` | 文档、policy、模板、验证脚本 | secret、本地环境文件、生成 artifact | 默认不强制 | local-unmanaged | lint、test、harness-check |
 
 ## `source-repo`
 
-Use for product code, services, CLIs, libraries, and applications.
+适用于产品代码、服务、CLI、库和应用。
 
-Typical structure:
+典型结构：
 
 ```text
 .
@@ -31,28 +30,27 @@ Typical structure:
 └── tests/
 ```
 
-Git:
+入库：
 
-- Source code.
-- Tests.
-- Documentation.
-- Dependency manifests and lock files.
-- Configuration templates.
-- Small deterministic fixtures required by tests.
+- 源码。
+- 测试。
+- 文档。
+- 依赖清单和 lock 文件。
+- 配置模板。
+- 测试所需的小型确定性 fixtures。
 
-Not Git:
+禁止入库：
 
-- `.venv/`, `node_modules/`
-- `dist/`, `build/`, `coverage/`
-- `.env`, secrets, credentials
-- Large generated artifacts
+- `.venv/`、`node_modules/`。
+- `dist/`、`build/`、`coverage/`。
+- `.env`、secret、credential。
+- 大型生成 artifact。
 
 ## `infra-repo`
 
-Use for Terraform, Ansible, Helm, Kubernetes, Docker Compose, and system
-infrastructure.
+适用于 Terraform、Ansible、Helm、Kubernetes、Docker Compose 和系统基础设施。
 
-Typical structure:
+典型结构：
 
 ```text
 .
@@ -67,32 +65,31 @@ Typical structure:
 └── helm/ or k8s/
 ```
 
-Git:
+入库：
 
-- Infrastructure code.
-- Environment templates without secrets.
-- Runbooks.
-- Validation scripts.
+- 基础设施代码。
+- 不含 secret 的环境模板。
+- Runbook。
+- 验证脚本。
 
-Not Git:
+禁止入库：
 
-- Secrets and credentials.
-- Terraform state containing sensitive values.
-- Generated plans containing sensitive values.
-- Machine-local config.
+- Secret 和 credential。
+- 含敏感值的 Terraform state。
+- 含敏感值的生成 plan。
+- 机器本地配置。
 
-Artifact/store:
+Artifact 管理：
 
-- Terraform remote state backend.
-- Container registry.
-- Secret manager.
+- Terraform remote state backend。
+- Container registry。
+- Secret manager。
 
 ## `research-repo`
 
-Use for experiments, model training, analysis pipelines, and reproducible
-research.
+适用于实验、模型训练、分析流水线和可复现实验。
 
-Typical structure:
+典型结构：
 
 ```text
 .
@@ -107,36 +104,35 @@ Typical structure:
 └── tests/
 ```
 
-Git:
+入库：
 
-- `code/`, `src/`, notebooks intended as source.
-- `configs/`.
-- `docs/`.
-- Lightweight fixtures.
-- Reproduction scripts.
+- `code/`、`src/`、作为源码维护的 notebook。
+- `configs/`。
+- `docs/`。
+- 轻量 fixtures。
+- 复现实验脚本。
 
-Not Git:
+禁止入库：
 
-- `data/`, `dataset/`, `datasets/`
-- `checkpoints/`
-- `models/`
-- `outputs/`, `results/`
-- Experiment tracker cache, large logs, generated plots unless intentionally
-  curated and small.
+- `data/`、`dataset/`、`datasets/`。
+- `checkpoints/`。
+- `models/`。
+- `outputs/`、`results/`。
+- 实验追踪缓存、大型日志、未经筛选的大型图表。
 
-Artifact/store:
+Artifact 管理：
 
-- NAS.
-- S3 or compatible object storage.
-- Hugging Face.
-- Model registry.
-- Experiment tracker.
+- NAS。
+- S3 或兼容对象存储。
+- Hugging Face。
+- Model registry。
+- Experiment tracker。
 
 ## `deployment-repo`
 
-Use for release automation, deployment orchestration, and environment templates.
+适用于发布自动化、部署编排和环境模板。
 
-Typical structure:
+典型结构：
 
 ```text
 .
@@ -150,31 +146,31 @@ Typical structure:
 └── environments/
 ```
 
-Git:
+入库：
 
-- Deployment scripts.
-- Manifests.
-- Environment templates without secrets.
-- Runbooks and rollback docs.
+- 部署脚本。
+- Manifest。
+- 不含 secret 的环境模板。
+- Runbook 和 rollback 文档。
 
-Not Git:
+禁止入库：
 
-- Secrets and credentials.
-- Generated release bundles.
-- Machine-specific state.
-- Production-only local env files.
+- Secret 和 credential。
+- 生成 release bundle。
+- 机器特定状态。
+- 生产环境本地 env 文件。
 
-Artifact/store:
+Artifact 管理：
 
-- Release store.
-- Container registry.
-- Package registry.
+- Release store。
+- Container registry。
+- Package registry。
 
 ## `knowledge-repo`
 
-Use for docs, standards, prompts, runbooks, policy, and templates.
+适用于文档、规范、prompt、runbook、policy 和模板。
 
-Typical structure:
+典型结构：
 
 ```text
 .
@@ -187,30 +183,25 @@ Typical structure:
 └── scripts/
 ```
 
-Git:
+入库：
 
-- Documentation.
-- Policy files.
-- Templates.
-- Validation scripts.
+- 文档。
+- Policy 文件。
+- 模板。
+- 验证脚本。
 
-Not Git:
+禁止入库：
 
-- Secrets.
-- Local env files.
-- Generated artifacts.
-- Private exports that should live in a managed document system.
+- Secret。
+- 本地环境文件。
+- 生成 artifact。
+- 应保存在受控文档系统中的私有导出。
 
-## Choosing A Type
+## 选择规则
 
-When uncertain:
-
-- Prefer `source-repo` for runnable product code.
-- Prefer `research-repo` when data, checkpoints, or experiment outputs are
-  first-class concerns.
-- Prefer `infra-repo` when the repository manages infrastructure state.
-- Prefer `deployment-repo` when it deploys or releases already-built systems.
-- Prefer `knowledge-repo` when it contains policy or docs and no runtime.
-
-If a workspace contains several of these, use `mono-workspace` and give each
-repository its own target-local harness.
+- 可运行产品代码优先选择 `source-repo`。
+- 数据、checkpoint、实验输出是一等问题时选择 `research-repo`。
+- 仓库管理基础设施状态时选择 `infra-repo`。
+- 仓库管理发布和部署流程时选择 `deployment-repo`。
+- 仓库仅包含文档、policy 或模板时选择 `knowledge-repo`。
+- 一个 workspace 包含多个不同类型仓库时，使用 `mono-workspace`，并让每个 repository 拥有自己的本地 harness。
