@@ -12,15 +12,10 @@
 优先阅读：
 
 1. /Users/wuyou/WorkingZone/harness-engineering/AGENTS.md
-2. /Users/wuyou/WorkingZone/harness-engineering/.harness/project-policy.yaml
-3. /Users/wuyou/WorkingZone/harness-engineering/.harness/workspace-policy.yaml
-4. /Users/wuyou/WorkingZone/harness-engineering/.harness/git-policy.yaml
-5. /Users/wuyou/WorkingZone/harness-engineering/.harness/quality-policy.yaml
-6. /Users/wuyou/WorkingZone/harness-engineering/.harness/architecture-policy.yaml
-7. /Users/wuyou/WorkingZone/harness-engineering/docs/HARNESS_GUIDE.md
-8. /Users/wuyou/WorkingZone/harness-engineering/docs/GIT_POLICY.md
+2. /Users/wuyou/WorkingZone/harness-engineering/HARNESS_QUICKSTART.md
+3. /Users/wuyou/WorkingZone/harness-engineering/templates/
 
-目标是创建一个可被 AI Agent / Codex 持续维护的 harness 工程，而不是只生成业务代码。工程应具备可读、可运行、可验证、可约束、可迭代的基础结构。
+目标是从 Harness Seed Repository 初始化目标项目自己的本地 harness，而不是让目标项目长期依赖参考工程。初始化后，目标项目自己的 AGENTS.md、.harness/*.yaml 和 scripts/harness-check 才是长期约束源。
 
 硬性规则：
 
@@ -29,7 +24,7 @@
    - AGENTS.md 应保持简短，只做入口地图、强制流程和关键禁令。
    - 详细规则放入 .harness/*.yaml 和 docs/*.md。
 
-2. 每个长期工程应有 .harness policy layer。
+2. 每个长期工程应有目标本地 .harness policy layer。
    - .harness/project-policy.yaml：project type、必需文件、必需命令、环境隔离、文档结构。
    - .harness/workspace-policy.yaml：single-repo、mono-repo 或 mono-workspace，以及真实 repository 边界。
    - .harness/git-policy.yaml：什么进 git、什么不进 git、大文件规则、提交规则。
@@ -51,7 +46,7 @@
 
 5. 当用户提出任何以代码为目标的请求时，默认在当前目标工程目录执行初始化检查。
    - 先读取 .harness/*.yaml。
-   - 如果 policy 缺失，先初始化最低 policy layer。
+   - 如果 policy 缺失，先根据 HARNESS_QUICKSTART.md 判断 project type，并从 templates/<project-type>/ 初始化最低 policy layer。
    - Python 项目优先使用 .venv；其他语言按生态选择隔离方式。
    - knowledge-repo 或纯文档任务不强制创建虚拟环境。
    - 不要安装到全局环境，除非用户明确要求。
@@ -108,13 +103,13 @@
 ## 精简版
 
 ```text
-创建或初始化任何工程时，先参考本地 harness 指导工程：/Users/wuyou/WorkingZone/harness-engineering。优先阅读 AGENTS.md、.harness/*.yaml、docs/HARNESS_GUIDE.md、docs/GIT_POLICY.md。
+创建或初始化任何工程时，先参考本地 harness 指导工程：/Users/wuyou/WorkingZone/harness-engineering。优先阅读 AGENTS.md、HARNESS_QUICKSTART.md 和 templates/。
 
-AGENTS.md 是唯一 Agent 入口；不创建 Agent.md。AGENTS.md 只做短地图和强制流程，长期规则沉淀到 .harness/*.yaml、docs、脚本、测试、lint 或 CI。
+AGENTS.md 是唯一 Agent 入口；不创建 Agent.md。该参考工程是 Harness Seed Repository：先读 AGENTS.md 和 HARNESS_QUICKSTART.md，判断目标项目类型，然后从 templates/<project-type>/ 初始化目标项目本地 harness。
 
 新项目必须先判断 project type 和 workspace type。project type 包括 source-repo、infra-repo、research-repo、deployment-repo、knowledge-repo。workspace type 包括 single-repo、mono-repo、mono-workspace。边界不清晰时先反馈，不允许直接 git init .。
 
-代码任务先执行初始化检查并读取 .harness policy。需要代码依赖时使用独立环境；Python 优先 .venv，其他语言按生态隔离。knowledge-repo 或纯文档任务不强制虚拟环境。
+代码任务先执行初始化检查并读取目标项目本地 .harness policy。需要代码依赖时使用独立环境；Python 优先 .venv，其他语言按生态隔离。knowledge-repo 或纯文档任务不强制虚拟环境。
 
 Git 必须遵守 docs/GIT_POLICY.md：开工前 git status --short；不覆盖用户修改；不提交 .venv、node_modules、dist、build、coverage、data、datasets、models、checkpoints、outputs、results、artifacts、.env、secret、.DS_Store；默认不提交超过 100MB 的文件。
 

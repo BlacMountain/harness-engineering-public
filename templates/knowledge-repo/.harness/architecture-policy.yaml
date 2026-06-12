@@ -1,0 +1,6 @@
+schema_version: 1
+architecture_type: knowledge
+rules:
+  - Keep startup rules short.
+  - Keep durable constraints machine-readable.
+  - Keep docs explanatory, not the only enforcement layer.

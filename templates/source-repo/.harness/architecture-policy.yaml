@@ -1,0 +1,6 @@
+schema_version: 1
+architecture_type: source
+rules:
+  - Document module boundaries in ARCHITECTURE.md.
+  - Keep dependency direction explicit.
+  - Validate external input at system boundaries.

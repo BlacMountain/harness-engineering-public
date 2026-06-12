@@ -1,0 +1,19 @@
+schema_version: 1
+repository_type: research-repo
+commit_types: [feat, fix, refactor, docs, test, chore]
+version_in_git:
+  - code
+  - configs
+  - docs
+  - lightweight fixtures
+forbidden_paths:
+  - data/
+  - dataset/
+  - datasets/
+  - models/
+  - checkpoints/
+  - outputs/
+  - results/
+  - artifacts/
+  - .env
+large_artifact_limit_mb: 100

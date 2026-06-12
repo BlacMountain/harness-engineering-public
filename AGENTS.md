@@ -1,56 +1,49 @@
 # AGENTS.md
 
-This repository is a harness guide for creating agent-readable, runnable,
-verifiable, constrained, and iterative software projects.
+This is a Harness Seed Repository. Use it to bootstrap target projects, not as
+the long-term source of rules for those projects.
 
-## Required Startup
+## Startup Protocol
 
-For any code-targeted task, first read:
+Before doing any code work in a target project:
 
-1. `.harness/project-policy.yaml`
-2. `.harness/workspace-policy.yaml`
-3. `.harness/git-policy.yaml`
-4. `.harness/quality-policy.yaml`
-5. `.harness/architecture-policy.yaml`
-6. `README.md`
-7. `docs/HARNESS_GUIDE.md`
-8. `docs/GIT_POLICY.md`
+1. Identify the workspace boundary.
+2. Identify the repository boundary.
+3. Identify the project type.
+4. Check whether the target project has `.harness/`.
+5. If `.harness/` is missing, initialize from `templates/<project-type>/`.
+6. Read the target project's `AGENTS.md` and `.harness/*.yaml`.
+7. Only then modify code.
 
-If `.harness/` is missing in a target project, initialize a minimal policy
-layer before writing business code.
+## Project Types
+
+- `source-repo`: product, service, CLI, library, or application source.
+- `infra-repo`: Terraform, Ansible, Helm, Kubernetes, Docker Compose, or infra.
+- `research-repo`: experiments, training code, configs, and reproducible runs.
+- `deployment-repo`: deployment orchestration, release scripts, env templates.
+- `knowledge-repo`: docs, policy, guidelines, and reusable operational knowledge.
+
+Use `HARNESS_QUICKSTART.md` when project type or workspace type is unclear.
 
 ## Hard Rules
 
-- MUST identify the workspace type and repository boundary before running git
-  initialization or git mutations.
-- MUST NOT run `git init .` at a workspace root unless policy explicitly says
-  the current directory is a single repository.
-- MUST check `git status --short` before editing an existing repository.
-- MUST preserve user changes and never revert work that was not explicitly
-  requested.
-- MUST use an isolated dependency environment for code projects when the policy
-  requires it.
-- MUST run the available verification commands after changes.
+- MUST NOT run `git init .` until workspace and repository boundaries are clear.
+- MUST NOT rely on this seed repository as the long-term policy for a target.
+- MUST copy or generate target-local `AGENTS.md`, `.harness/`, and checks.
+- MUST run `git status --short` before edits in an existing repository.
+- MUST preserve user changes and never revert work unless explicitly requested.
 - NEVER commit virtual environments, dependency folders, build output, coverage,
-  datasets, model checkpoints, experiment outputs, secrets, or local env files.
+  datasets, checkpoints, experiment outputs, secrets, or local env files.
 
-## Command Entry Points
+## Seed Repository Checks
 
-- `scripts/setup`
+For changes to this seed repository, run:
+
+- `scripts/harness-check`
 - `scripts/lint`
 - `scripts/test`
-- `scripts/dev`
-- `scripts/harness-check`
-
-If a command cannot apply to the project type, it must exit successfully with a
-clear explanation rather than silently doing nothing.
 
 ## Completion Report
 
-Every completed task must report:
-
-- Files changed.
-- Harness policies used.
-- Verification commands run.
-- Current git status.
-- Remaining risks or user decisions.
+Report files changed, policies used, verification commands, git status, and any
+remaining user decisions.

@@ -1,0 +1,17 @@
+.DS_Store
+.env
+.env.*
+!.env.example
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.venv/
+node_modules/
+dist/
+build/
+artifacts/

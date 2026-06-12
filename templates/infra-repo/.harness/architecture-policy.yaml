@@ -1,0 +1,6 @@
+schema_version: 1
+architecture_type: infrastructure
+rules:
+  - Document state backend and environment boundaries.
+  - Keep secrets outside git.
+  - Prefer dry-run or plan validation before applying changes.

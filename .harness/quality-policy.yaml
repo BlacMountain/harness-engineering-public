@@ -18,3 +18,5 @@ minimum_checks:
   - .gitignore covers git forbidden paths
   - large files are not tracked or staged
   - legacy Agent.md entry is absent
+  - seed templates exist for each project type
+  - docs are not required for target startup after template bootstrap

@@ -1,0 +1,12 @@
+schema_version: 1
+repository_type: knowledge-repo
+commit_types: [docs, chore, fix, refactor, test]
+version_in_git:
+  - docs
+  - policy files
+  - validation scripts
+  - templates
+forbidden_paths:
+  - .env
+  - artifacts/
+large_artifact_limit_mb: 100

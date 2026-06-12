@@ -1,0 +1,10 @@
+schema_version: 1
+workspace_type: single-repo
+repository_root: .
+repositories:
+  - path: .
+    role: infra-repo
+git_init_policy:
+  allow_git_init_at_workspace_root: true
+  require_confirmation_if_no_git_root: true
+  require_status_before_changes: true

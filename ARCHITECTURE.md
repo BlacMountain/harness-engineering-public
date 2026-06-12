@@ -1,17 +1,23 @@
 # Architecture
 
-This repository is a knowledge and policy harness. It does not contain a product
-runtime; it defines reusable project policy, documentation, and validation
-entry points for agent-maintained repositories.
+This repository is a Harness Seed Repository. It does not contain a product
+runtime; it bootstraps target-local policy, documentation, and validation entry
+points for agent-maintained repositories.
 
 ## Layers
 
-- `AGENTS.md`: short agent entry point and required workflow.
+- `AGENTS.md`: short startup protocol for bootstrapping target projects.
+- `HARNESS_QUICKSTART.md`: project type and workspace decision tree.
 - `.harness/`: machine-readable policy source of truth.
+- `templates/`: minimal target-local harness templates by project type.
 - `docs/`: human-readable guidance, rationale, and governance.
 - `scripts/`: executable checks and command entry points.
 
 ## Dependency Direction
+
+The root startup protocol routes Agents into the quickstart decision tree, then
+into a concrete template. After bootstrap, the target project's local
+`AGENTS.md`, `.harness/*.yaml`, and checks become the durable authority.
 
 Policy files define constraints. Documents explain those constraints. Scripts
 validate those constraints. Documents and scripts should not introduce rules

@@ -128,6 +128,37 @@ def check_agent_length(errors: list[str], architecture_policy_text: str) -> None
             fail(errors, f"AGENTS.md has {count} lines; limit is {max_lines}")
 
 
+def check_templates(errors: list[str]) -> None:
+    project_types = [
+        "source-repo",
+        "infra-repo",
+        "research-repo",
+        "deployment-repo",
+        "knowledge-repo",
+    ]
+    required = [
+        "AGENTS.md",
+        "README.md",
+        "ARCHITECTURE.md",
+        ".gitignore",
+        ".harness/project-policy.yaml",
+        ".harness/workspace-policy.yaml",
+        ".harness/git-policy.yaml",
+        ".harness/quality-policy.yaml",
+        ".harness/architecture-policy.yaml",
+        "docs/GIT_POLICY.md",
+        "scripts/harness-check",
+    ]
+    for project_type in project_types:
+        base = ROOT / "templates" / project_type
+        if not base.is_dir():
+            fail(errors, f"missing template directory: templates/{project_type}")
+            continue
+        for rel in required:
+            if not (base / rel).is_file():
+                fail(errors, f"template {project_type} missing {rel}")
+
+
 def main() -> int:
     errors: list[str] = []
     project_policy = ROOT / ".harness/project-policy.yaml"
@@ -151,6 +182,7 @@ def main() -> int:
         check_agent_length(errors, read_text(architecture_policy))
 
     check_legacy_entry(errors)
+    check_templates(errors)
 
     if errors:
         print("harness-check failed:")

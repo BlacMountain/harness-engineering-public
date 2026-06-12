@@ -1,0 +1,6 @@
+schema_version: 1
+architecture_type: deployment
+rules:
+  - Document environments and rollback flow.
+  - Keep secrets outside git.
+  - Prefer dry-run validation before deployment changes.

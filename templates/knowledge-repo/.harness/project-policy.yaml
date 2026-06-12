@@ -1,0 +1,18 @@
+schema_version: 1
+project_name: TODO
+project_type: knowledge-repo
+required_files:
+  - README.md
+  - AGENTS.md
+  - ARCHITECTURE.md
+  - docs/GIT_POLICY.md
+required_directories:
+  - .harness
+  - scripts
+  - docs
+required_commands:
+  - scripts/lint
+  - scripts/test
+  - scripts/harness-check
+require_isolated_environment: false
+artifact_store: local-unmanaged
