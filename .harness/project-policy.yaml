@@ -16,11 +16,15 @@ required_files:
   - ARCHITECTURE.md
   - docs/HARNESS_GUIDE.md
   - docs/GIT_POLICY.md
+  - docs/PROJECT_TYPES.md
+  - docs/DOCS_STRUCTURE.md
   - docs/CODEX_CUSTOM_INSTRUCTIONS.md
   - docs/QUALITY.md
   - docs/RELIABILITY.md
   - docs/SECURITY.md
   - docs/product-specs/index.md
+  - docs/decisions/index.md
+  - docs/references/index.md
   - docs/exec-plans/tech-debt-tracker.md
 required_directories:
   - .harness
@@ -33,6 +37,8 @@ required_directories:
   - docs
   - docs/exec-plans/active
   - docs/exec-plans/completed
+  - docs/decisions
+  - docs/references
   - docs/examples/policies
   - scripts
 required_commands:

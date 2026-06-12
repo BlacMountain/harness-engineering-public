@@ -147,6 +147,10 @@ def check_templates(errors: list[str]) -> None:
         ".harness/quality-policy.yaml",
         ".harness/architecture-policy.yaml",
         "docs/GIT_POLICY.md",
+        "docs/product-specs/index.md",
+        "docs/exec-plans/active/.gitkeep",
+        "docs/exec-plans/completed/.gitkeep",
+        "docs/exec-plans/tech-debt-tracker.md",
         "scripts/harness-check",
     ]
     for project_type in project_types:

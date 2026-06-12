@@ -9,6 +9,8 @@
 - [templates/](templates)：按 project type 提供的最小 harness 模板。
 - [docs/HARNESS_GUIDE.md](docs/HARNESS_GUIDE.md)：通用 harness 解释文档。
 - [docs/GIT_POLICY.md](docs/GIT_POLICY.md)：Git、仓库边界和版本控制规则。
+- [docs/PROJECT_TYPES.md](docs/PROJECT_TYPES.md)：项目类型、入库规则、artifact 和命令要求。
+- [docs/DOCS_STRUCTURE.md](docs/DOCS_STRUCTURE.md)：文档分层、用途和边界。
 - [docs/CODEX_CUSTOM_INSTRUCTIONS.md](docs/CODEX_CUSTOM_INSTRUCTIONS.md)：可直接放入 Codex 的自定义指令模板。
 - [.harness/](.harness)：机器可读 policy source of truth。
 
