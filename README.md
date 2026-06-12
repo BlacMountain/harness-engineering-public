@@ -10,9 +10,35 @@
 - [docs/HARNESS_GUIDE.md](docs/HARNESS_GUIDE.md)：通用 harness 解释文档。
 - [docs/GIT_POLICY.md](docs/GIT_POLICY.md)：Git、仓库边界和版本控制规则。
 - [docs/PROJECT_TYPES.md](docs/PROJECT_TYPES.md)：项目类型、入库规则、artifact 和命令要求。
-- [docs/DOCS_STRUCTURE.md](docs/DOCS_STRUCTURE.md)：文档分层、用途和边界。
 - [docs/CODEX_CUSTOM_INSTRUCTIONS.md](docs/CODEX_CUSTOM_INSTRUCTIONS.md)：可直接放入 Codex 的自定义指令模板。
 - [.harness/](.harness)：机器可读 policy source of truth。
+
+## Seed 功能地图
+
+- Agent 启动协议：`AGENTS.md`
+- 初始化决策树：`HARNESS_QUICKSTART.md`
+- 可复制骨架：`templates/<project-type>/`
+- 项目类型判断：`docs/PROJECT_TYPES.md`
+- Git 规则：`docs/GIT_POLICY.md`
+- 质量规则：`docs/QUALITY.md`
+- 可靠性规则：`docs/RELIABILITY.md`
+- 安全规则：`docs/SECURITY.md`
+- 机器可读约束：`.harness/*.yaml`
+
+## 文档写入路由
+
+- 写“系统应该是什么”：`docs/product-specs/`
+- 写“本次任务怎么做”：`docs/exec-plans/active/`
+- 写“完成了什么、学到了什么”：`docs/exec-plans/completed/`
+- 写“剩余技术债”：`docs/exec-plans/tech-debt-tracker.md`
+- 写“为什么这样决策”：`docs/decisions/`
+- 写“依据来自哪里”：`docs/references/`
+- 写长期 Git 规则：`docs/GIT_POLICY.md` 和 `.harness/git-policy.yaml`
+- 写长期质量规则：`docs/QUALITY.md` 和 `.harness/quality-policy.yaml`
+- 写长期可靠性规则：`docs/RELIABILITY.md`
+- 写长期安全规则：`docs/SECURITY.md`
+
+目录内如果有本地 `README.md`，以本地说明为准。根 `README.md` 只负责路由，不承载所有写作细节。
 
 ## 常用命令
 

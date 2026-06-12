@@ -17,14 +17,17 @@ required_files:
   - docs/HARNESS_GUIDE.md
   - docs/GIT_POLICY.md
   - docs/PROJECT_TYPES.md
-  - docs/DOCS_STRUCTURE.md
   - docs/CODEX_CUSTOM_INSTRUCTIONS.md
   - docs/QUALITY.md
   - docs/RELIABILITY.md
   - docs/SECURITY.md
+  - docs/product-specs/README.md
   - docs/product-specs/index.md
+  - docs/decisions/README.md
   - docs/decisions/index.md
+  - docs/references/README.md
   - docs/references/index.md
+  - docs/exec-plans/README.md
   - docs/exec-plans/tech-debt-tracker.md
 required_directories:
   - .harness

@@ -2,6 +2,20 @@
 
 The harness must make Agent work repeatable.
 
+## 使用方式
+
+什么时候读：
+
+- 变更会影响启动、重试、超时、回滚、日志或观测能力时。
+- 需要说明失败后如何诊断或恢复时。
+- 本地验证无法完全覆盖运行风险时。
+
+什么时候更新：
+
+- 新增服务、后台任务、部署流程或外部依赖。
+- 新增或改变超时、重试、幂等、回滚、日志、指标要求。
+- 发现某类失败无法被 Agent 复现或诊断时。
+
 MUST:
 
 - Provide stable command entry points.

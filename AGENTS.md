@@ -43,6 +43,9 @@ For changes to this seed repository, run:
 - `scripts/lint`
 - `scripts/test`
 
+For docs changes in this seed repository, route through root `README.md` and
+the target docs directory README. Keep detailed docs rules out of this file.
+
 ## Completion Report
 
 Report files changed, policies used, verification commands, git status, and any

@@ -3,6 +3,26 @@
 Git policy defines what belongs in version control, where git operations may
 run, and how Agent changes stay reviewable.
 
+## 使用方式
+
+什么时候读：
+
+- 初始化或判断 repository 边界时。
+- 修改 `.gitignore`、artifact 目录、数据目录或生成物路径时。
+- 准备 stage、commit、push 或创建 PR 前。
+
+什么时候更新：
+
+- 新增 project type、artifact store 或生成目录时。
+- 发现 Agent 反复误提交某类文件时。
+- `.harness/git-policy.yaml` 或 `.gitignore` 的规则发生变化时。
+
+关系：
+
+- `.harness/git-policy.yaml` 是机器可读规则。
+- `.gitignore` 是本地执行边界。
+- 本文档解释规则原因、使用场景和人工判断。
+
 ## Repository Types
 
 - `source-repo`: product, service, CLI, library, or application source.
