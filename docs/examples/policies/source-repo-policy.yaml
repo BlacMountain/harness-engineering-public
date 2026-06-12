@@ -1,0 +1,25 @@
+schema_version: 1
+project_type: source-repo
+required_files:
+  - README.md
+  - AGENTS.md
+  - ARCHITECTURE.md
+required_commands:
+  - scripts/setup
+  - scripts/lint
+  - scripts/test
+  - scripts/dev
+require_isolated_environment: true
+version_in_git:
+  - source code
+  - tests
+  - docs
+  - config templates
+do_not_version:
+  - .venv/
+  - node_modules/
+  - dist/
+  - build/
+  - coverage/
+  - .env
+artifact_store: local-unmanaged

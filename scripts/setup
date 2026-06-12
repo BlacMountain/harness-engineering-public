@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+set -eu
+
+printf '%s\n' 'No external setup required for this knowledge-repo harness.'

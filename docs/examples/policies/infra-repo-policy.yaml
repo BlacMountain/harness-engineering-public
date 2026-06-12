@@ -1,0 +1,25 @@
+schema_version: 1
+project_type: infra-repo
+required_files:
+  - README.md
+  - AGENTS.md
+  - docs/GIT_POLICY.md
+required_commands:
+  - scripts/setup
+  - scripts/lint
+  - scripts/test
+require_isolated_environment: false
+version_in_git:
+  - terraform
+  - ansible
+  - helm
+  - kubernetes
+  - docker-compose
+  - deployment scripts
+  - environment templates without secrets
+do_not_version:
+  - .env
+  - secrets
+  - state files with credentials
+  - generated plans with sensitive values
+artifact_store: registry-or-state-backend

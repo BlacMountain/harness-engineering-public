@@ -1,0 +1,36 @@
+schema_version: 1
+project_name: harness-engineering
+project_type: knowledge-repo
+description: Reusable harness guidance for agent-maintained engineering projects.
+source_of_truth:
+  - AGENTS.md
+  - .harness/
+  - docs/
+  - scripts/
+required_files:
+  - README.md
+  - AGENTS.md
+  - ARCHITECTURE.md
+  - docs/HARNESS_GUIDE.md
+  - docs/GIT_POLICY.md
+  - docs/CODEX_CUSTOM_INSTRUCTIONS.md
+  - docs/QUALITY.md
+  - docs/RELIABILITY.md
+  - docs/SECURITY.md
+  - docs/product-specs/index.md
+  - docs/exec-plans/tech-debt-tracker.md
+required_directories:
+  - .harness
+  - docs
+  - docs/exec-plans/active
+  - docs/exec-plans/completed
+  - docs/examples/policies
+  - scripts
+required_commands:
+  - scripts/setup
+  - scripts/lint
+  - scripts/test
+  - scripts/dev
+  - scripts/harness-check
+require_isolated_environment: false
+artifact_store: local-unmanaged

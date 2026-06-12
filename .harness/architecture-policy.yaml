@@ -1,0 +1,23 @@
+schema_version: 1
+architecture_type: policy-and-documentation
+layers:
+  - name: agent-entry
+    paths:
+      - AGENTS.md
+  - name: machine-policy
+    paths:
+      - .harness/
+  - name: human-guidance
+    paths:
+      - docs/
+  - name: executable-checks
+    paths:
+      - scripts/
+dependency_rules:
+  - Machine-readable policy is the source of truth for durable constraints.
+  - Documentation explains policy and must not contradict it.
+  - Scripts enforce policy and should fail with actionable messages.
+  - AGENTS.md stays short and points to policy and docs.
+file_rules:
+  max_agent_entry_lines: 100
+  prefer_must_should_never_for_constraints: true

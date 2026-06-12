@@ -1,0 +1,26 @@
+schema_version: 1
+project_type: research-repo
+required_files:
+  - README.md
+  - AGENTS.md
+  - ARCHITECTURE.md
+  - docs/GIT_POLICY.md
+required_commands:
+  - scripts/setup
+  - scripts/lint
+  - scripts/test
+require_isolated_environment: true
+version_in_git:
+  - code
+  - configs
+  - docs
+  - lightweight fixtures
+do_not_version:
+  - data/
+  - dataset/
+  - datasets/
+  - models/
+  - checkpoints/
+  - outputs/
+  - results/
+artifact_store: local-unmanaged

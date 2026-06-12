@@ -1,0 +1,39 @@
+.DS_Store
+
+# Local environments
+.venv/
+venv/
+env/
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+coverage/
+.coverage
+
+# Node and frontend
+node_modules/
+dist/
+build/
+.next/
+.vite/
+
+# Research and generated artifacts
+data/
+dataset/
+datasets/
+models/
+checkpoints/
+outputs/
+results/
+artifacts/
+
+# Local tool state
+.codex-log/
+*.log

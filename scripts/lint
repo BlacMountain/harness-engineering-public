@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+set -eu
+
+scripts/harness-check
+OLD_PREFIX='/Users/wuyou/Documents'
+OLD_PATH="${OLD_PREFIX}/harness-engineering"
+rg -n "$OLD_PATH" README.md AGENTS.md ARCHITECTURE.md docs .harness && {
+  printf '%s\n' 'legacy harness path found'
+  exit 1
+} || true
+printf '%s\n' 'lint passed'

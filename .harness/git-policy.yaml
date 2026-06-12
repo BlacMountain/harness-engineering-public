@@ -1,0 +1,57 @@
+schema_version: 1
+repository_type: knowledge-repo
+default_branch: main
+commit_types:
+  - feat
+  - fix
+  - refactor
+  - docs
+  - test
+  - chore
+allowed_to_version:
+  - source code
+  - documentation
+  - policy files
+  - scripts
+  - configuration templates
+forbidden_paths:
+  - .venv/
+  - venv/
+  - env/
+  - node_modules/
+  - dist/
+  - build/
+  - coverage/
+  - data/
+  - dataset/
+  - datasets/
+  - models/
+  - checkpoints/
+  - outputs/
+  - results/
+  - artifacts/
+  - .env
+  - .env.*
+  - .DS_Store
+large_artifact_limit_mb: 100
+large_artifact_policy: Do not commit files larger than the limit; use an artifact store instead.
+required_gitignore_entries:
+  - .DS_Store
+  - .venv/
+  - node_modules/
+  - dist/
+  - build/
+  - coverage/
+  - data/
+  - dataset/
+  - datasets/
+  - models/
+  - checkpoints/
+  - outputs/
+  - results/
+  - .env
+rules:
+  - MUST run git status --short before edits in an existing repository.
+  - MUST keep commits small, purposeful, and verifiable.
+  - MUST NOT revert or overwrite user changes unless explicitly requested.
+  - MUST NOT commit secrets, local environment files, generated dependency folders, datasets, checkpoints, or outputs.

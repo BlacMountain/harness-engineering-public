@@ -1,0 +1,14 @@
+schema_version: 1
+workspace_type: single-repo
+repository_root: .
+repositories:
+  - path: .
+    role: harness-guide
+git_init_policy:
+  allow_git_init_at_workspace_root: true
+  require_confirmation_if_no_git_root: true
+  require_status_before_changes: true
+boundary_rules:
+  - Treat this directory as the repository root.
+  - Do not initialize git above this directory.
+  - For mono-workspace projects, list each repository explicitly before git work.
