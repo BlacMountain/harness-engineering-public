@@ -1,3 +1,0 @@
-#!/usr/bin/env sh
-set -eu
-printf '%s\n' 'TODO: create isolated environment and install research dependencies'

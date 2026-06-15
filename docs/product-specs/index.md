@@ -1,25 +1,24 @@
 # Product Specs Index
 
-本 seed 仓库的产品目标是提供可复制的本地 harness 初始化能力。
+本 seed 仓库的产品目标是提供一套可迁移到目标项目的 harness operating model，并保留 `Harness Seed Repository` 作为工程名称。
 
 ## 当前能力
 
-- 通过 `AGENTS.md` 定义 Agent 启动协议。
-- 通过 `HARNESS_QUICKSTART.md` 判断 workspace boundary、repository boundary 和 project type。
-- 通过 `templates/<project-type>/` 初始化目标项目的本地 harness。
-- 通过 `.harness/*.yaml` 保存本 seed 仓库的机器可读约束。
-- 通过 `scripts/harness-check` 验证 seed 仓库和模板结构。
-- 通过 `docs/GIT_POLICY.md`、`docs/QUALITY.md`、`docs/RELIABILITY.md`、`docs/SECURITY.md` 解释治理规则。
+- 通过 `README.md`、`AGENTS.md` 和 `HARNESS_QUICKSTART.md` 提供短入口和任务阶段路由。
+- 通过 `docs/` 保存产品目标、执行计划、决策、外部依据和治理说明。
+- 通过 `.harness/*.yaml` 保存会被脚本读取的机器可读约束。
+- 通过 `scripts/harness-check` 验证 seed 仓库结构和 policy。
+- 通过 `scripts/setup`、`scripts/lint`、`scripts/test`、`scripts/dev` 提供统一命令入口。
 
 ## 非目标
 
 - 不作为目标项目的长期外部规则依赖。
-- 不替代目标项目本地 `AGENTS.md`、`.harness/*.yaml` 和验证脚本。
+- 不替代目标项目本地 `AGENTS.md`、`.harness/*.yaml`、docs 和验证脚本。
 - 不在 seed 仓库中定义具体业务项目的运行时实现。
 
 ## 验收标准
 
-- 新 Agent 能从根 `AGENTS.md` 找到初始化流程。
-- 目标项目可从 `templates/<project-type>/` 获得最小 harness。
-- `scripts/harness-check` 能检查 seed 仓库必需结构。
+- 新 Agent 能从根 `README.md` 和 `AGENTS.md` 找到启动流程。
+- `HARNESS_QUICKSTART.md` 能把常见任务导向 spec、plan、ADR、reference、policy 或 check。
+- `.harness/*.yaml` 被 `scripts/harness-check` 消费，而不是成为第二套说明书。
 - 目标项目文档落地路由能从根 `README.md` 找到对应目录和 policy 文档。

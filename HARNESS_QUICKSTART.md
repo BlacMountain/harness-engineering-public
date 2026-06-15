@@ -1,90 +1,73 @@
 # Harness Quickstart
 
-This repository is a seed for creating target-local harnesses. The seed is used
-at bootstrap time; the target project must own its long-term rules through its
-own `AGENTS.md`, `.harness/*.yaml`, and validation commands.
+Use this file after `README.md` and `AGENTS.md`. Its job is to decide the next
+durable artifact to read, create, or update. It is not a template selector.
 
-## Decision Tree
+## 1. Confirm Boundaries
 
-### 1. Find The Workspace Boundary
+Before any code or policy work:
 
-Check the current directory and parents:
+1. Identify the workspace boundary.
+2. Identify the repository boundary with `git rev-parse --show-toplevel` when
+   inside an existing repository.
+3. Run `git status --short`.
+4. Check whether the target project already has `AGENTS.md`, `.harness/`, docs,
+   and validation commands.
 
-- If the directory contains one project and one git root, use `single-repo`.
-- If one git root contains multiple packages or services, use `mono-repo`.
-- If one workspace contains multiple independent git repositories, use
-  `mono-workspace`.
+If the boundary is unclear, stop and ask for the intended target repository. Do
+not run `git init .` by default.
 
-If unclear, stop and ask for the intended target repository. Do not run
-`git init .`.
+## 2. Identify The Work Stage
 
-### 2. Find The Repository Boundary
+| Situation | Next artifact |
+| --- | --- |
+| Need to define goals, users, behavior, or acceptance | `docs/product-specs/` |
+| Need to implement a non-trivial change | `docs/exec-plans/active/` |
+| Need to record a durable technical or governance choice | `docs/decisions/` |
+| Need to rely on an external API, paper, platform, law, or protocol | `docs/references/` |
+| Need to change repository, artifact, or Git boundaries | `docs/GIT_POLICY.md` and `.harness/git-policy.yaml` |
+| Need to change setup, lint, test, dev, or done criteria | `docs/QUALITY.md` and `.harness/quality-policy.yaml` |
+| Need to change failure, recovery, logs, timeout, or rollback behavior | `docs/RELIABILITY.md` |
+| Need to change secret, auth, permission, input, or trust boundaries | `docs/SECURITY.md` |
+| Need to enforce a repeated rule mechanically | `.harness/*.yaml` plus scripts, lint, tests, hooks, or CI |
 
-Run `git rev-parse --show-toplevel` when inside an existing repository. If there
-is no git root, use `.harness/workspace-policy.yaml` or user confirmation before
-initializing one.
+## 3. Bootstrap A Target Harness
 
-### 3. Choose Project Type
+For a long-lived target project, create or update:
 
-- Use `source-repo` for product code, services, CLIs, libraries, and apps.
-- Use `infra-repo` for Terraform, Ansible, Helm, Kubernetes, Docker Compose, and
-  system configuration.
-- Use `research-repo` for experiments, model training, analysis pipelines, and
-  reproducible research.
-- Use `deployment-repo` for deployment orchestration, release automation, and
-  environment templates.
-- Use `knowledge-repo` for docs, standards, runbooks, prompts, and policy.
-
-### 4. Bootstrap Missing Harness
-
-If the target project does not contain `.harness/`, copy the closest template:
-
-```text
-templates/<project-type>/
-```
-
-Then adjust:
-
-- Project name and description.
-- Workspace type and repository list.
-- Required commands.
-- Artifact store.
-- Git forbidden paths.
-
-### 5. Switch To Target-Local Policy
-
-After bootstrap, read and obey the target project's own:
-
-- `AGENTS.md`
-- `.harness/project-policy.yaml`
-- `.harness/workspace-policy.yaml`
-- `.harness/git-policy.yaml`
-- `.harness/quality-policy.yaml`
-- `.harness/architecture-policy.yaml`
-
-Do not keep depending on this seed repository for day-to-day development.
-
-## Minimum Target Harness
-
-Every long-lived target project should have:
-
-- `AGENTS.md`
-- `.harness/project-policy.yaml`
-- `.harness/workspace-policy.yaml`
-- `.harness/git-policy.yaml`
-- `.harness/quality-policy.yaml`
-- `.harness/architecture-policy.yaml`
 - `README.md`
+- `AGENTS.md`
 - `ARCHITECTURE.md`
-- `docs/GIT_POLICY.md`
+- `.harness/project-policy.yaml`
+- `.harness/workspace-policy.yaml`
+- `.harness/git-policy.yaml`
+- `.harness/quality-policy.yaml`
+- `.harness/architecture-policy.yaml`
 - `docs/product-specs/index.md`
 - `docs/exec-plans/active/`
 - `docs/exec-plans/completed/`
 - `docs/exec-plans/tech-debt-tracker.md`
+- `docs/decisions/index.md`
+- `docs/references/index.md`
+- `docs/GIT_POLICY.md`
 - `docs/QUALITY.md`
 - `docs/RELIABILITY.md`
 - `docs/SECURITY.md`
+- `scripts/setup`
+- `scripts/lint`
+- `scripts/test`
+- `scripts/dev` or `scripts/run`
 - `scripts/harness-check`
 
-Code projects should also provide `setup`, `lint`, `test`, and `dev` or `run`
-entry points.
+Code projects must use an isolated dependency environment. Python projects
+should use `.venv`; other ecosystems should use their normal local isolation.
+Pure documentation tasks do not require creating an environment.
+
+## 4. Transfer Rules Locally
+
+The target project owns its long-term rules. After bootstrap:
+
+1. Read the target project's `AGENTS.md`.
+2. Read the target project's `.harness/*.yaml`.
+3. Run the target project's validation commands.
+4. Stop depending on this seed repository for day-to-day development.

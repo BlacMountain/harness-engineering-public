@@ -1,3 +1,0 @@
-#!/usr/bin/env sh
-set -eu
-printf '%s\n' 'TODO: install project dependencies in an isolated environment'

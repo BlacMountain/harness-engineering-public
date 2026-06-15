@@ -1,3 +1,0 @@
-#!/usr/bin/env sh
-set -eu
-printf '%s\n' 'TODO: install infra tooling or verify it is available'

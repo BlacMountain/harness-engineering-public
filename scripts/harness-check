@@ -11,10 +11,32 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 MAX_AGENT_LINES_DEFAULT = 100
+ALLOWED_WORKSPACE_TYPES = {"single-repo", "mono-repo", "mono-workspace"}
+REQUIRED_REPORT_FIELDS = {
+    "files_changed",
+    "policies_used",
+    "commands_run",
+    "git_status",
+    "remaining_risks",
+}
+REQUIRED_MINIMUM_CHECKS = {
+    "required files exist",
+    "required directories exist",
+    "command entry points exist and are executable",
+    ".gitignore covers git forbidden paths",
+    "large files are not tracked or staged",
+    "single AGENTS.md entry is enforced",
+    "AGENTS.md stays within the configured line limit",
+    ".harness policy is consumed by scripts/harness-check",
+}
 
 
 def read_text(path: Path) -> str:
     return path.read_text(encoding="utf-8")
+
+
+def clean_value(value: str) -> str:
+    return value.strip().strip('"').strip("'")
 
 
 def collect_list(policy_text: str, key: str) -> list[str]:
@@ -40,7 +62,7 @@ def collect_list(policy_text: str, key: str) -> list[str]:
             if current_indent <= indent and not stripped.startswith("-"):
                 break
             if stripped.startswith("- "):
-                values.append(stripped[2:].strip().strip('"').strip("'"))
+                values.append(clean_value(stripped[2:]))
     return values
 
 
@@ -49,8 +71,80 @@ def collect_scalar(policy_text: str, key: str, default: str = "") -> str:
     for line in policy_text.splitlines():
         stripped = line.strip()
         if stripped.startswith(prefix):
-            return stripped[len(prefix):].strip().strip('"').strip("'")
+            return clean_value(stripped[len(prefix):])
     return default
+
+
+def collect_mapping(policy_text: str, key: str) -> dict[str, str]:
+    lines = policy_text.splitlines()
+    values: dict[str, str] = {}
+    in_mapping = False
+    indent = 0
+    prefix = f"{key}:"
+
+    for line in lines:
+        stripped = line.strip()
+        if not stripped or stripped.startswith("#"):
+            continue
+        if stripped == prefix:
+            in_mapping = True
+            indent = len(line) - len(line.lstrip(" "))
+            continue
+        if in_mapping:
+            current_indent = len(line) - len(line.lstrip(" "))
+            if current_indent <= indent:
+                break
+            if stripped.startswith("- ") or ":" not in stripped:
+                continue
+            name, value = stripped.split(":", 1)
+            values[clean_value(name)] = clean_value(value)
+    return values
+
+
+def collect_list_mappings(policy_text: str, key: str) -> list[dict[str, str]]:
+    lines = policy_text.splitlines()
+    values: list[dict[str, str]] = []
+    current: dict[str, str] | None = None
+    in_list = False
+    indent = 0
+    prefix = f"{key}:"
+
+    for line in lines:
+        stripped = line.strip()
+        if not stripped or stripped.startswith("#"):
+            continue
+        if stripped == prefix:
+            in_list = True
+            indent = len(line) - len(line.lstrip(" "))
+            continue
+        if in_list:
+            current_indent = len(line) - len(line.lstrip(" "))
+            if current_indent <= indent and not stripped.startswith("-"):
+                break
+            if stripped.startswith("- "):
+                if current:
+                    values.append(current)
+                current = {}
+                item = stripped[2:].strip()
+                if ":" in item:
+                    name, value = item.split(":", 1)
+                    current[clean_value(name)] = clean_value(value)
+                continue
+            if current is not None and ":" in stripped:
+                name, value = stripped.split(":", 1)
+                current[clean_value(name)] = clean_value(value)
+
+    if current:
+        values.append(current)
+    return values
+
+
+def parse_bool(value: str) -> bool | None:
+    if value == "true":
+        return True
+    if value == "false":
+        return False
+    return None
 
 
 def fail(errors: list[str], message: str) -> None:
@@ -68,13 +162,17 @@ def check_required_paths(errors: list[str], policy_text: str) -> None:
 
 def check_commands(errors: list[str], policy_text: str) -> None:
     for rel in collect_list(policy_text, "required_commands"):
-        path = ROOT / rel
-        if not path.is_file():
-            fail(errors, f"missing required command: {rel}")
-            continue
-        mode = path.stat().st_mode
-        if not mode & stat.S_IXUSR:
-            fail(errors, f"required command is not executable: {rel}")
+        check_executable(errors, rel, "required command")
+
+
+def check_executable(errors: list[str], rel: str, label: str) -> None:
+    path = ROOT / rel
+    if not path.is_file():
+        fail(errors, f"missing {label}: {rel}")
+        return
+    mode = path.stat().st_mode
+    if not mode & stat.S_IXUSR:
+        fail(errors, f"{label} is not executable: {rel}")
 
 
 def check_gitignore(errors: list[str], git_policy_text: str) -> None:
@@ -128,48 +226,86 @@ def check_agent_length(errors: list[str], architecture_policy_text: str) -> None
             fail(errors, f"AGENTS.md has {count} lines; limit is {max_lines}")
 
 
-def check_templates(errors: list[str]) -> None:
-    project_types = [
-        "source-repo",
-        "infra-repo",
-        "research-repo",
-        "deployment-repo",
-        "knowledge-repo",
-    ]
-    required = [
-        "AGENTS.md",
-        "README.md",
-        "ARCHITECTURE.md",
-        ".gitignore",
-        ".harness/project-policy.yaml",
-        ".harness/workspace-policy.yaml",
-        ".harness/git-policy.yaml",
-        ".harness/quality-policy.yaml",
-        ".harness/architecture-policy.yaml",
-        "docs/GIT_POLICY.md",
-        "docs/product-specs/index.md",
-        "docs/exec-plans/active/.gitkeep",
-        "docs/exec-plans/completed/.gitkeep",
-        "docs/exec-plans/tech-debt-tracker.md",
-        "scripts/harness-check",
-    ]
-    for project_type in project_types:
-        base = ROOT / "templates" / project_type
-        if not base.is_dir():
-            fail(errors, f"missing template directory: templates/{project_type}")
+def check_policy_layer_declared(
+    errors: list[str],
+    project_policy_text: str,
+    architecture_policy_text: str,
+) -> None:
+    if ".harness/" not in collect_list(project_policy_text, "source_of_truth"):
+        fail(errors, ".harness/ must be listed in project-policy source_of_truth")
+    if "machine-policy" not in architecture_policy_text:
+        fail(errors, "architecture policy must declare the machine-policy layer")
+
+
+def check_quality_policy(errors: list[str], quality_policy_text: str) -> None:
+    entrypoints = collect_mapping(quality_policy_text, "required_command_entrypoints")
+    if not entrypoints:
+        fail(errors, "quality policy must declare required_command_entrypoints")
+    for name, rel in entrypoints.items():
+        check_executable(errors, rel, f"quality command entrypoint '{name}'")
+
+    report_fields = set(collect_list(quality_policy_text, "verification_report_requires"))
+    missing_report_fields = sorted(REQUIRED_REPORT_FIELDS - report_fields)
+    for field in missing_report_fields:
+        fail(errors, f"quality policy missing verification report field: {field}")
+
+    minimum_checks = set(collect_list(quality_policy_text, "minimum_checks"))
+    missing_minimum_checks = sorted(REQUIRED_MINIMUM_CHECKS - minimum_checks)
+    for check in missing_minimum_checks:
+        fail(errors, f"quality policy missing minimum check: {check}")
+
+
+def check_workspace_policy(errors: list[str], workspace_policy_text: str) -> None:
+    workspace_type = collect_scalar(workspace_policy_text, "workspace_type")
+    if workspace_type not in ALLOWED_WORKSPACE_TYPES:
+        fail(errors, f"invalid workspace_type: {workspace_type}")
+
+    repository_root = collect_scalar(workspace_policy_text, "repository_root")
+    if not repository_root or repository_root == "null":
+        fail(errors, "workspace policy must declare repository_root")
+    elif not (ROOT / repository_root).is_dir():
+        fail(errors, f"repository_root does not exist or is not a directory: {repository_root}")
+
+    repositories = collect_list_mappings(workspace_policy_text, "repositories")
+    if not repositories:
+        fail(errors, "workspace policy must list at least one repository")
+    for repository in repositories:
+        path = repository.get("path", "")
+        role = repository.get("role", "")
+        if not path:
+            fail(errors, "workspace policy repository entry missing path")
             continue
-        for rel in required:
-            if not (base / rel).is_file():
-                fail(errors, f"template {project_type} missing {rel}")
+        if not role:
+            fail(errors, f"workspace policy repository entry missing role: {path}")
+        if not (ROOT / path).exists():
+            fail(errors, f"workspace policy repository path does not exist: {path}")
+
+    git_init_policy = collect_mapping(workspace_policy_text, "git_init_policy")
+    for key in [
+        "allow_git_init_at_workspace_root",
+        "require_confirmation_if_no_git_root",
+        "require_status_before_changes",
+    ]:
+        value = git_init_policy.get(key)
+        if parse_bool(value or "") is None:
+            fail(errors, f"workspace git_init_policy must declare boolean {key}")
+
+    boundary_rules = collect_list(workspace_policy_text, "boundary_rules")
+    if not boundary_rules:
+        fail(errors, "workspace policy must declare boundary_rules")
 
 
 def main() -> int:
     errors: list[str] = []
     project_policy = ROOT / ".harness/project-policy.yaml"
+    workspace_policy = ROOT / ".harness/workspace-policy.yaml"
     git_policy = ROOT / ".harness/git-policy.yaml"
+    quality_policy = ROOT / ".harness/quality-policy.yaml"
     architecture_policy = ROOT / ".harness/architecture-policy.yaml"
+    project_text = ""
+    architecture_text = ""
 
-    for path in [project_policy, git_policy, architecture_policy]:
+    for path in [project_policy, workspace_policy, git_policy, quality_policy, architecture_policy]:
         if not path.is_file():
             fail(errors, f"missing policy file: {path.relative_to(ROOT)}")
 
@@ -182,11 +318,17 @@ def main() -> int:
         check_gitignore(errors, git_text)
         check_forbidden_present(errors, git_text)
         check_large_files(errors, git_text)
+    if workspace_policy.is_file():
+        check_workspace_policy(errors, read_text(workspace_policy))
+    if quality_policy.is_file():
+        check_quality_policy(errors, read_text(quality_policy))
     if architecture_policy.is_file():
-        check_agent_length(errors, read_text(architecture_policy))
+        architecture_text = read_text(architecture_policy)
+        check_agent_length(errors, architecture_text)
 
     check_legacy_entry(errors)
-    check_templates(errors)
+    if project_text and architecture_text:
+        check_policy_layer_declared(errors, project_text, architecture_text)
 
     if errors:
         print("harness-check failed:")

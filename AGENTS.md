@@ -1,49 +1,60 @@
 # AGENTS.md
 
-This is a Harness Seed Repository. Use it to bootstrap target projects. Do not
-use it as the long-term rule source for target projects.
+This is a Harness Seed Repository. Use it to create target-local harnesses. Do
+not use it as the long-term rule source for target projects.
 
 ## Startup Protocol
 
-Before doing code work in a target project:
+Before changing this repository or a target project:
 
 1. Identify the workspace boundary.
 2. Identify the repository boundary.
-3. Identify the project type.
-4. Check whether the target project has `.harness/`.
-5. If `.harness/` is missing, initialize from `templates/<project-type>/`.
-6. Read the target project's `AGENTS.md` and `.harness/*.yaml`.
-7. Only then modify code.
-
-## Project Types
-
-- `source-repo`: product, service, CLI, library, or application source.
-- `infra-repo`: Terraform, Ansible, Helm, Kubernetes, Docker Compose, or infra.
-- `research-repo`: experiments, training code, configs, and reproducible runs.
-- `deployment-repo`: deployment orchestration, release scripts, env templates.
-- `knowledge-repo`: docs, policy, guidelines, and operational knowledge.
-
-Use `HARNESS_QUICKSTART.md` when project type or workspace type is unclear.
+3. Run `git status --short` in the repository root.
+4. Read `README.md`, `HARNESS_QUICKSTART.md`, and `.harness/*.yaml`.
+5. Read task-relevant docs under `docs/`.
+6. Only then modify files.
 
 ## Target Harness Transfer
 
-When bootstrapping a target project from this seed:
+When bootstrapping or repairing a target project:
 
-1. Copy or generate the target-local `AGENTS.md`, `.harness/`, docs, and checks.
-2. Use root `README.md` to map seed principles to the target project structure.
-3. Use the relevant docs directory `README.md` to create target-local docs.
-4. Put durable target rules in target `.harness/*.yaml` before explaining them in docs.
-5. Add or update the target `scripts/harness-check` for rules that must be enforced.
+1. Create or update the target-local `README.md`, `AGENTS.md`,
+   `ARCHITECTURE.md`, `.harness/`, docs, and validation commands.
+2. Put durable target rules in target `.harness/*.yaml`.
+3. Put human explanation, tradeoffs, and operating guidance in target docs.
+4. Put mechanical checks in scripts, lint, tests, hooks, or CI.
+5. After bootstrap, obey the target project's local rules, not this seed.
+
+## Documentation Lifecycle Rules
+
+Keep code, docs, policy, and checks describing the same system state.
+
+When a task changes behavior, architecture, validation, Git boundaries,
+security boundaries, or reliability assumptions, update the relevant durable
+artifact in the same change:
+
+- goals and acceptance: `docs/product-specs/`
+- implementation work: `docs/exec-plans/active/`
+- durable choices: `docs/decisions/`
+- external facts: `docs/references/`
+- version-control rules: `docs/GIT_POLICY.md` and `.harness/git-policy.yaml`
+- quality gates: `docs/QUALITY.md` and `.harness/quality-policy.yaml`
+- failure and recovery rules: `docs/RELIABILITY.md`
+- secrets, auth, and trust boundaries: `docs/SECURITY.md`
+
+If no document or policy update is required, explain why in the completion
+report.
 
 ## Hard Rules
 
 - MUST NOT run `git init .` until workspace and repository boundaries are clear.
-- MUST NOT rely on this seed repository as target-project long-term policy.
-- MUST copy or generate target-local `AGENTS.md`, `.harness/`, and checks.
 - MUST run `git status --short` before edits in an existing repository.
 - MUST preserve user changes and never revert work unless explicitly requested.
-- NEVER commit virtual environments, dependency folders, build output, coverage,
-  datasets, checkpoints, experiment outputs, secrets, or local env files.
+- MUST keep `AGENTS.md` short and route to durable docs and policy.
+- MUST keep `.harness/` machine-readable and consumed by checks.
+- NEVER commit virtual environments, dependency folders, build output,
+  coverage, datasets, checkpoints, experiment outputs, secrets, or local env
+  files.
 
 ## Seed Repository Checks
 
@@ -55,5 +66,5 @@ For changes to this seed repository, run:
 
 ## Completion Report
 
-Report files changed, policies used, verification commands, git status, and any
-remaining user decisions.
+Report files changed, harness rules used, verification commands, current git
+status, and any remaining user decisions.

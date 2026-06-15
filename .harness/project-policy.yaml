@@ -1,12 +1,11 @@
 schema_version: 1
-project_name: harness-engineering
+project_name: Harness Seed Repository
 project_type: knowledge-repo
-description: Harness Seed Repository for bootstrapping target-local agent policies.
+description: Single harness seed operating model for target-local agent policies.
 source_of_truth:
   - AGENTS.md
   - HARNESS_QUICKSTART.md
   - .harness/
-  - templates/
   - docs/
   - scripts/
 required_files:
@@ -16,7 +15,6 @@ required_files:
   - ARCHITECTURE.md
   - docs/HARNESS_GUIDE.md
   - docs/GIT_POLICY.md
-  - docs/PROJECT_TYPES.md
   - docs/CODEX_CUSTOM_INSTRUCTIONS.md
   - docs/QUALITY.md
   - docs/RELIABILITY.md
@@ -31,12 +29,6 @@ required_files:
   - docs/exec-plans/tech-debt-tracker.md
 required_directories:
   - .harness
-  - templates
-  - templates/source-repo
-  - templates/infra-repo
-  - templates/research-repo
-  - templates/deployment-repo
-  - templates/knowledge-repo
   - docs
   - docs/exec-plans/active
   - docs/exec-plans/completed

@@ -18,5 +18,5 @@ minimum_checks:
   - .gitignore covers git forbidden paths
   - large files are not tracked or staged
   - single AGENTS.md entry is enforced
-  - seed templates exist for each project type
-  - docs are not required for target startup after template bootstrap
+  - AGENTS.md stays within the configured line limit
+  - .harness policy is consumed by scripts/harness-check

@@ -1,6 +1,0 @@
-schema_version: 1
-architecture_type: research
-rules:
-  - Separate code, configs, docs, data, and generated artifacts.
-  - Store artifact locations in README or experiment docs.
-  - Keep runs reproducible from versioned code and configs.

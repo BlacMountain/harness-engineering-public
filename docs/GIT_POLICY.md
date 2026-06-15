@@ -10,11 +10,11 @@ run, and how Agent changes stay reviewable.
 - 初始化项目或判断 repository boundary。
 - 修改 `.gitignore`、artifact 目录、数据目录或生成物路径。
 - 准备 stage、commit、push 或创建 PR。
-- 处理 research、deployment 或 infra 项目的大文件和运行产物。
+- 处理大文件、运行产物、模型、数据或部署状态。
 
 什么时候更新：
 
-- 新增 project type、artifact store、生成目录或禁止入库路径。
+- 新增 artifact store、生成目录或禁止入库路径。
 - 发现 Agent 反复误提交某类文件。
 - `.harness/git-policy.yaml` 或 `.gitignore` 发生变化。
 
@@ -23,18 +23,6 @@ run, and how Agent changes stay reviewable.
 - `.harness/git-policy.yaml` 保存机器可读规则。
 - `.gitignore` 执行本地忽略边界。
 - 本文档解释规则原因、适用场景和人工判断方式。
-
-## Repository Types
-
-- `source-repo`: product, service, CLI, library, or application source.
-- `infra-repo`: Terraform, Ansible, Helm, Kubernetes, Docker Compose, or system
-  infrastructure.
-- `research-repo`: experiments, training code, reproducible analysis, and
-  model development.
-- `deployment-repo`: deployment orchestration, release scripts, and environment
-  configuration templates.
-- `knowledge-repo`: documentation, policy, guidelines, and reusable operational
-  knowledge.
 
 ## Workspace vs Repository
 
@@ -49,41 +37,25 @@ MUST:
 
 NEVER:
 
-- Assume `workspace/` is a git repository.
-- Run `git init .` at a workspace root unless policy says `single-repo`.
+- Assume a workspace root is a git repository.
+- Run `git init .` until workspace and repository boundaries are clear.
 - Stage files outside the target repository.
 
 ## What Goes Into Git
 
-Source repositories SHOULD version:
+Repositories SHOULD version:
 
-- Source code.
-- Tests.
+- Source code and tests when present.
 - Documentation.
-- Configuration templates.
-- Dependency manifests and lock files.
-- Small deterministic fixtures needed by tests.
-
-Infrastructure and deployment repositories SHOULD version:
-
-- Terraform, Helm, Kubernetes, Ansible, Docker Compose, and deployment scripts.
-- Environment templates without secrets.
-- Runbooks and operational documentation.
-
-Research repositories SHOULD version:
-
-- Experiment code.
-- Configurations.
-- Lightweight fixtures.
-- Documentation describing data sources, artifact locations, and reproduction
-  steps.
-
-Knowledge repositories SHOULD version:
-
-- Markdown documents.
 - Machine-readable policy files.
 - Validation scripts.
-- Templates and examples.
+- Dependency manifests and lock files.
+- Configuration templates without secrets.
+- Small deterministic fixtures needed by tests.
+
+Differences between source, infra, research, deployment, and knowledge projects
+should be expressed as target-local policy deltas, not as competing seed-level
+control paths.
 
 ## What Must Not Go Into Git
 

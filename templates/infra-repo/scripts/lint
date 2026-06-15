@@ -1,4 +1,0 @@
-#!/usr/bin/env sh
-set -eu
-scripts/harness-check
-printf '%s\n' 'TODO: run infra lint or validate commands'

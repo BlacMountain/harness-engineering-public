@@ -1,7 +1,0 @@
-schema_version: 1
-required_command_entrypoints:
-  setup: scripts/setup
-  lint: scripts/lint
-  test: scripts/test
-  dev: scripts/dev
-  harness_check: scripts/harness-check

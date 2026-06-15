@@ -22,6 +22,8 @@
 - `AGENTS.md` 必须保持短入口，只保留启动阶段必须读取的规则。
 - Durable constraints 必须先进入 `.harness/*.yaml`，再进入解释性文档。
 - 结构规则应优先进入 `scripts/harness-check`。
+- `.harness/*.yaml` 必须被脚本或其他自动化真实消费，不能成为 Markdown 文档的镜像。
+- 计划或文档之间存在冲突时，未决事项必须记录到执行计划、技术债或决策文档。
 - 修改 policy、文档结构、模板结构或命令入口后，必须运行 `scripts/harness-check`。
 - 修改完成后必须汇报验证命令和当前 git 状态。
 
@@ -38,3 +40,4 @@ scripts/test
 - 不把长期规则只留在聊天回复中。
 - 不新增无法从 `AGENTS.md`、根 `README.md` 或 `.harness/*.yaml` 找到的规则。
 - 不创建没有验证路径的结构或模板。
+- 不重新引入多套 seed 启动路径，除非先记录新的架构决策并更新检查脚本。
