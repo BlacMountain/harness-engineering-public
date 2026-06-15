@@ -22,4 +22,4 @@
 - 新 Agent 能从根 `AGENTS.md` 找到初始化流程。
 - 目标项目可从 `templates/<project-type>/` 获得最小 harness。
 - `scripts/harness-check` 能检查 seed 仓库必需结构。
-- 文档路由能从根 `README.md` 找到对应目录和 policy 文档。
+- 目标项目文档落地路由能从根 `README.md` 找到对应目录和 policy 文档。

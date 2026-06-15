@@ -7,7 +7,7 @@
 什么时候读：
 
 - 新增或修改 `setup`、`lint`、`test`、`dev`、`harness-check`。
-- 修改 `.harness/*.yaml`、目录结构、模板结构或文档路由。
+- 修改 `.harness/*.yaml`、目录结构、模板结构或目标项目文档落地路由。
 - 完成任务后判断需要运行哪些验证命令。
 - 将重复 review 意见升级为脚本、测试、lint 或 CI。
 

@@ -1,6 +1,6 @@
 # Harness Seed Repository
 
-本仓库用于为目标项目初始化本地 harness。它提供启动协议、项目类型判断、可复制骨架、机器可读策略、文档规则和验证入口。目标项目完成初始化后，应以目标项目内的 `AGENTS.md`、`.harness/*.yaml` 和验证脚本作为长期约束源。
+本仓库用于为目标项目初始化本地 harness。它提供启动协议、项目类型判断、可复制骨架、机器可读策略、文档落地规则和验证入口。目标项目完成初始化后，应以目标项目内的 `AGENTS.md`、`.harness/*.yaml` 和验证脚本作为长期约束源。
 
 本仓库不作为目标项目的长期外部规则依赖。
 
@@ -28,9 +28,9 @@
 4. 初始化后切换到目标项目本地 `AGENTS.md` 和 `.harness/*.yaml`。
 5. 将长期规则沉淀到目标项目本地 policy、脚本、测试、lint 或 CI。
 
-## 文档路由
+## 目标项目文档落地路由
 
-| 写入内容 | 位置 | 说明 |
+| 目标项目需要沉淀的内容 | 目标位置 | 使用说明 |
 | --- | --- | --- |
 | 系统应具备的能力、用户流程、验收标准 | `docs/product-specs/` | 先读 `docs/product-specs/README.md` |
 | 当前任务的实施步骤、风险、验证方式 | `docs/exec-plans/active/` | 先读 `docs/exec-plans/README.md` |
@@ -43,7 +43,7 @@
 | 可靠性长期规则 | `docs/RELIABILITY.md` | 覆盖失败、恢复、观测要求 |
 | 安全长期规则 | `docs/SECURITY.md` | 覆盖 secret、权限、输入和执行边界 |
 
-目录内存在 `README.md` 时，以目录本地说明为准。根 `README.md` 只提供路由。
+目录内存在 `README.md` 时，以目录本地说明为准。根 `README.md` 只提供目标项目初始化和文档落地路由。
 
 ## 常用命令
 

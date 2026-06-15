@@ -25,15 +25,15 @@ Before doing code work in a target project:
 
 Use `HARNESS_QUICKSTART.md` when project type or workspace type is unclear.
 
-## Docs Management
+## Target Harness Transfer
 
-For seed repository documentation changes:
+When bootstrapping a target project from this seed:
 
-1. Use root `README.md` to choose the correct destination.
-2. Read the target docs directory `README.md` before editing files there.
-3. Keep durable rules in `.harness/*.yaml` before explaining them in docs.
-4. Keep docs explanatory; do not put startup-only rules only in `docs/`.
-5. Update `scripts/harness-check` when a docs structure rule must be enforced.
+1. Copy or generate the target-local `AGENTS.md`, `.harness/`, docs, and checks.
+2. Use root `README.md` to map seed principles to the target project structure.
+3. Use the relevant docs directory `README.md` to create target-local docs.
+4. Put durable target rules in target `.harness/*.yaml` before explaining them in docs.
+5. Add or update the target `scripts/harness-check` for rules that must be enforced.
 
 ## Hard Rules
 

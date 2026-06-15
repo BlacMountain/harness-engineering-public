@@ -10,7 +10,7 @@
 | 初始化决策 | `HARNESS_QUICKSTART.md` | 判断 workspace boundary、repository boundary 和 project type |
 | 机器策略 | `.harness/*.yaml` | 保存本 seed 仓库的可检查约束 |
 | 可复制骨架 | `templates/<project-type>/` | 为目标项目生成本地 `AGENTS.md`、`.harness/`、docs 和验证入口 |
-| 人类说明 | `README.md`、`docs/` | 解释功能边界、文档路由、项目类型和治理规则 |
+| 人类说明 | `README.md`、`docs/` | 解释功能边界、目标项目文档落地路由、项目类型和治理规则 |
 | 验证入口 | `scripts/` | 检查 seed 仓库结构、模板结构和基础约束 |
 
 ## 依赖方向
@@ -45,6 +45,6 @@
 ## 变更要求
 
 - 修改目录结构时，同步更新 `.harness/project-policy.yaml` 和 `scripts/harness-check`。
-- 修改文档路由时，同步更新根 `README.md` 和相关目录本地 `README.md`。
+- 修改目标项目文档落地路由时，同步更新根 `README.md` 和相关目录本地 `README.md`。
 - 修改模板结构时，验证所有 `templates/<project-type>/scripts/harness-check`。
 - 不保留旧入口或兼容性说明，除非它们仍是当前架构的一部分。
