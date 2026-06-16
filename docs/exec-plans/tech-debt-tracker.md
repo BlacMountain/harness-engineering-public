@@ -4,4 +4,4 @@
 
 | Date | Area | Debt | Impact | Next Action | Status |
 | --- | --- | --- | --- | --- | --- |
-| 2026-06-16 | CI | `scripts/lint` 和 `scripts/test` 尚未接入 CI。 | 结构和文档生命周期检查只能本地运行。 | 增加最小 CI workflow。 | open |
+| 2026-06-16 | XXXX | XXX` 和 `XXX` 尚未接入 XXX | XXXXX只能XXXX。 | 增加最小XXXX。 | open |
