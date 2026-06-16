@@ -1,8 +1,7 @@
 # AGENTS.md
 
-This is a Harness Seed Repository. Use it to maintain this repository's method,
-docs, and validation scripts. Do not use it as the long-term rule source for
-target projects.
+This repository maintains the harness method, lifecycle docs, and validation
+scripts used to operate this seed repository.
 
 ## Startup Protocol
 
@@ -31,7 +30,7 @@ scripts, lint, tests, hooks, or CI.
 - MUST run `git status --short` before edits in an existing repository.
 - MUST preserve user changes and never revert work unless explicitly requested.
 - MUST keep `AGENTS.md` short and focused on Agent behavior.
-- MUST keep target-project transfer guidance in `HARNESS_QUICKSTART.md`.
+- MUST keep usage workflow details in `HARNESS_QUICKSTART.md`.
 - NEVER commit virtual environments, dependency folders, build output,
   coverage, datasets, checkpoints, experiment outputs, secrets, or local env
   files.

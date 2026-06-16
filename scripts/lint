@@ -52,6 +52,20 @@ done
 [ ! -e "scripts/harness-""check" ] || fail "removed check script still exists"
 [ ! -e "Agent.md" ] || fail "legacy Agent.md exists; use AGENTS.md"
 
+TRANSFER_PATTERN="目标项目""迁移|target ""project|Target Harness ""Transfer"
+rg -n "$TRANSFER_PATTERN" README.md AGENTS.md ARCHITECTURE.md docs scripts \
+  --glob '!docs/exec-plans/completed/*.md' && {
+  printf '%s\n' 'transfer wording belongs in HARNESS_QUICKSTART.md'
+  exit 1
+} || true
+
+REMOVED_POLICY_PATTERN="\\.har""ness|policy\\.ya""ml|harness-""check"
+rg -n "$REMOVED_POLICY_PATTERN" README.md AGENTS.md ARCHITECTURE.md HARNESS_QUICKSTART.md docs scripts \
+  --glob '!docs/exec-plans/completed/*.md' && {
+  printf '%s\n' 'removed policy/check surface found'
+  exit 1
+} || true
+
 for entry in \
   .DS_Store \
   .venv/ \
