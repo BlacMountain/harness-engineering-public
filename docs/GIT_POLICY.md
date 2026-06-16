@@ -16,12 +16,12 @@ run, and how Agent changes stay reviewable.
 
 - 新增 artifact store、生成目录或禁止入库路径。
 - 发现 Agent 反复误提交某类文件。
-- `.harness/policy.yaml` 或 `.gitignore` 发生变化。
+- `.gitignore`、lint、test 或提交边界规则发生变化。
 
 规则关系：
 
-- `.harness/policy.yaml` 保存机器可读规则。
 - `.gitignore` 执行本地忽略边界。
+- `scripts/lint` 和 CI 执行可机械化检查。
 - 本文档解释规则原因、适用场景和人工判断方式。
 
 ## Workspace vs Repository
@@ -31,7 +31,7 @@ that owns source history.
 
 MUST:
 
-- Read `.harness/policy.yaml` before git initialization.
+- Read `README.md`, `AGENTS.md`, and task-relevant docs before git initialization.
 - Run `git status --short` before modifying an existing repository.
 - Confirm the target repository path before staging, committing, or pushing.
 
@@ -47,7 +47,6 @@ Repositories SHOULD version:
 
 - Source code and tests when present.
 - Documentation.
-- Machine-readable policy files.
 - Validation scripts.
 - Dependency manifests and lock files.
 - Configuration templates without secrets.

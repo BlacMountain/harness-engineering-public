@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
 set -eu
 
-scripts/harness-check
+scripts/lint
 printf '%s\n' 'test passed'

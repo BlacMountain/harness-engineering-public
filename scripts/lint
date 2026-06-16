@@ -1,11 +1,81 @@
 #!/usr/bin/env sh
 set -eu
 
-scripts/harness-check
+fail() {
+  printf '%s\n' "$1"
+  exit 1
+}
+
+for path in \
+  README.md \
+  AGENTS.md \
+  HARNESS_QUICKSTART.md \
+  ARCHITECTURE.md \
+  docs/GIT_POLICY.md \
+  docs/QUALITY.md \
+  docs/RELIABILITY.md \
+  docs/SECURITY.md \
+  docs/product-specs/README.md \
+  docs/product-specs/index.md \
+  docs/exec-plans/README.md \
+  docs/exec-plans/tech-debt-tracker.md \
+  docs/decisions/README.md \
+  docs/decisions/index.md \
+  docs/references/README.md \
+  docs/references/index.md \
+  scripts/setup \
+  scripts/lint \
+  scripts/test \
+  scripts/dev
+do
+  [ -e "$path" ] || fail "missing required path: $path"
+done
+
+for dir in \
+  docs \
+  docs/product-specs \
+  docs/exec-plans/active \
+  docs/exec-plans/completed \
+  docs/decisions \
+  docs/references \
+  scripts
+do
+  [ -d "$dir" ] || fail "missing required directory: $dir"
+done
+
+for script in scripts/setup scripts/lint scripts/test scripts/dev
+do
+  [ -x "$script" ] || fail "script is not executable: $script"
+done
+
+[ ! -e ".har""ness" ] || fail "removed policy directory still exists"
+[ ! -e "scripts/harness-""check" ] || fail "removed check script still exists"
+[ ! -e "Agent.md" ] || fail "legacy Agent.md exists; use AGENTS.md"
+
+for entry in \
+  .DS_Store \
+  .venv/ \
+  node_modules/ \
+  dist/ \
+  build/ \
+  coverage/ \
+  data/ \
+  dataset/ \
+  datasets/ \
+  models/ \
+  checkpoints/ \
+  outputs/ \
+  results/ \
+  .env
+do
+  rg -q --fixed-strings "$entry" .gitignore || fail ".gitignore missing required entry: $entry"
+done
+
 OLD_PREFIX='/Users/wuyou/Documents'
 OLD_PATH="${OLD_PREFIX}/harness-engineering"
-rg -n "$OLD_PATH" README.md AGENTS.md HARNESS_QUICKSTART.md ARCHITECTURE.md docs .harness && {
+rg -n "$OLD_PATH" README.md AGENTS.md HARNESS_QUICKSTART.md ARCHITECTURE.md docs scripts && {
   printf '%s\n' 'legacy harness path found'
   exit 1
 } || true
+
 printf '%s\n' 'lint passed'

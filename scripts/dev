@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 set -eu
 
-printf '%s\n' 'This knowledge-repo has no dev server. Use scripts/harness-check to validate changes.'
+printf '%s\n' 'This knowledge-repo has no dev server. Use scripts/lint and scripts/test to validate changes.'
