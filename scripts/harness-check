@@ -10,8 +10,18 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
+POLICY_FILE = ROOT / ".harness/policy.yaml"
+LEGACY_POLICY_FILE_NAMES = [
+    "project-policy.yaml",
+    "workspace-policy.yaml",
+    "git-policy.yaml",
+    "quality-policy.yaml",
+    "architecture-policy.yaml",
+]
+LEGACY_POLICY_FILES = [ROOT / ".harness" / name for name in LEGACY_POLICY_FILE_NAMES]
 MAX_AGENT_LINES_DEFAULT = 100
 ALLOWED_WORKSPACE_TYPES = {"single-repo", "mono-repo", "mono-workspace"}
+REQUIRED_COMMANDS = {"setup", "lint", "test", "dev", "harness_check"}
 REQUIRED_REPORT_FIELDS = {
     "files_changed",
     "policies_used",
@@ -161,8 +171,16 @@ def check_required_paths(errors: list[str], policy_text: str) -> None:
 
 
 def check_commands(errors: list[str], policy_text: str) -> None:
-    for rel in collect_list(policy_text, "required_commands"):
-        check_executable(errors, rel, "required command")
+    entrypoints = collect_mapping(policy_text, "commands")
+    if not entrypoints:
+        fail(errors, "policy must declare commands")
+
+    missing_commands = sorted(REQUIRED_COMMANDS - set(entrypoints))
+    for name in missing_commands:
+        fail(errors, f"policy missing command entrypoint: {name}")
+
+    for name, rel in entrypoints.items():
+        check_executable(errors, rel, f"command entrypoint '{name}'")
 
 
 def check_executable(errors: list[str], rel: str, label: str) -> None:
@@ -226,24 +244,14 @@ def check_agent_length(errors: list[str], architecture_policy_text: str) -> None
             fail(errors, f"AGENTS.md has {count} lines; limit is {max_lines}")
 
 
-def check_policy_layer_declared(
-    errors: list[str],
-    project_policy_text: str,
-    architecture_policy_text: str,
-) -> None:
-    if ".harness/" not in collect_list(project_policy_text, "source_of_truth"):
-        fail(errors, ".harness/ must be listed in project-policy source_of_truth")
-    if "machine-policy" not in architecture_policy_text:
-        fail(errors, "architecture policy must declare the machine-policy layer")
+def check_policy_layer_declared(errors: list[str], policy_text: str) -> None:
+    if ".harness/policy.yaml" not in collect_list(policy_text, "source_of_truth"):
+        fail(errors, ".harness/policy.yaml must be listed in source_of_truth")
+    if "machine-policy" not in policy_text:
+        fail(errors, "policy must declare the machine-policy layer")
 
 
 def check_quality_policy(errors: list[str], quality_policy_text: str) -> None:
-    entrypoints = collect_mapping(quality_policy_text, "required_command_entrypoints")
-    if not entrypoints:
-        fail(errors, "quality policy must declare required_command_entrypoints")
-    for name, rel in entrypoints.items():
-        check_executable(errors, rel, f"quality command entrypoint '{name}'")
-
     report_fields = set(collect_list(quality_policy_text, "verification_report_requires"))
     missing_report_fields = sorted(REQUIRED_REPORT_FIELDS - report_fields)
     for field in missing_report_fields:
@@ -297,38 +305,27 @@ def check_workspace_policy(errors: list[str], workspace_policy_text: str) -> Non
 
 def main() -> int:
     errors: list[str] = []
-    project_policy = ROOT / ".harness/project-policy.yaml"
-    workspace_policy = ROOT / ".harness/workspace-policy.yaml"
-    git_policy = ROOT / ".harness/git-policy.yaml"
-    quality_policy = ROOT / ".harness/quality-policy.yaml"
-    architecture_policy = ROOT / ".harness/architecture-policy.yaml"
-    project_text = ""
-    architecture_text = ""
+    policy_text = ""
 
-    for path in [project_policy, workspace_policy, git_policy, quality_policy, architecture_policy]:
-        if not path.is_file():
-            fail(errors, f"missing policy file: {path.relative_to(ROOT)}")
+    if not POLICY_FILE.is_file():
+        fail(errors, f"missing policy file: {POLICY_FILE.relative_to(ROOT)}")
+    else:
+        policy_text = read_text(POLICY_FILE)
+        check_required_paths(errors, policy_text)
+        check_commands(errors, policy_text)
+        check_gitignore(errors, policy_text)
+        check_forbidden_present(errors, policy_text)
+        check_large_files(errors, policy_text)
+        check_workspace_policy(errors, policy_text)
+        check_quality_policy(errors, policy_text)
+        check_agent_length(errors, policy_text)
+        check_policy_layer_declared(errors, policy_text)
 
-    if project_policy.is_file():
-        project_text = read_text(project_policy)
-        check_required_paths(errors, project_text)
-        check_commands(errors, project_text)
-    if git_policy.is_file():
-        git_text = read_text(git_policy)
-        check_gitignore(errors, git_text)
-        check_forbidden_present(errors, git_text)
-        check_large_files(errors, git_text)
-    if workspace_policy.is_file():
-        check_workspace_policy(errors, read_text(workspace_policy))
-    if quality_policy.is_file():
-        check_quality_policy(errors, read_text(quality_policy))
-    if architecture_policy.is_file():
-        architecture_text = read_text(architecture_policy)
-        check_agent_length(errors, architecture_text)
+    for path in LEGACY_POLICY_FILES:
+        if path.exists():
+            fail(errors, f"legacy policy file exists: {path.relative_to(ROOT)}")
 
     check_legacy_entry(errors)
-    if project_text and architecture_text:
-        check_policy_layer_declared(errors, project_text, architecture_text)
 
     if errors:
         print("harness-check failed:")

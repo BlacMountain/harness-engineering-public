@@ -25,11 +25,11 @@ not run `git init .` by default.
 | Need to implement a non-trivial change | `docs/exec-plans/active/` |
 | Need to record a durable technical or governance choice | `docs/decisions/` |
 | Need to rely on an external API, paper, platform, law, or protocol | `docs/references/` |
-| Need to change repository, artifact, or Git boundaries | `docs/GIT_POLICY.md` and `.harness/git-policy.yaml` |
-| Need to change setup, lint, test, dev, or done criteria | `docs/QUALITY.md` and `.harness/quality-policy.yaml` |
+| Need to change repository, artifact, or Git boundaries | `docs/GIT_POLICY.md` and `.harness/policy.yaml` |
+| Need to change setup, lint, test, dev, or done criteria | `docs/QUALITY.md` and `.harness/policy.yaml` |
 | Need to change failure, recovery, logs, timeout, or rollback behavior | `docs/RELIABILITY.md` |
 | Need to change secret, auth, permission, input, or trust boundaries | `docs/SECURITY.md` |
-| Need to enforce a repeated rule mechanically | `.harness/*.yaml` plus scripts, lint, tests, hooks, or CI |
+| Need to enforce a repeated rule mechanically | `.harness/policy.yaml` plus scripts, lint, tests, hooks, or CI |
 
 ## 3. Bootstrap A Target Harness
 
@@ -38,11 +38,7 @@ For a long-lived target project, create or update:
 - `README.md`
 - `AGENTS.md`
 - `ARCHITECTURE.md`
-- `.harness/project-policy.yaml`
-- `.harness/workspace-policy.yaml`
-- `.harness/git-policy.yaml`
-- `.harness/quality-policy.yaml`
-- `.harness/architecture-policy.yaml`
+- `.harness/policy.yaml`
 - `docs/product-specs/index.md`
 - `docs/exec-plans/active/`
 - `docs/exec-plans/completed/`
@@ -63,11 +59,15 @@ Code projects must use an isolated dependency environment. Python projects
 should use `.venv`; other ecosystems should use their normal local isolation.
 Pure documentation tasks do not require creating an environment.
 
+Keep `.harness/policy.yaml` in the constrained YAML subset consumed by
+`scripts/harness-check`: simple mappings, simple lists, plain scalar values, no
+anchors, aliases, multiline scalars, complex nesting, or duplicate keys.
+
 ## 4. Transfer Rules Locally
 
 The target project owns its long-term rules. After bootstrap:
 
 1. Read the target project's `AGENTS.md`.
-2. Read the target project's `.harness/*.yaml`.
+2. Read the target project's `.harness/policy.yaml`.
 3. Run the target project's validation commands.
 4. Stop depending on this seed repository for day-to-day development.

@@ -16,20 +16,17 @@
 3. /Users/wuyou/WorkingZone/harness-engineering/HARNESS_QUICKSTART.md
 4. /Users/wuyou/WorkingZone/harness-engineering/docs/HARNESS_GUIDE.md
 
-目标是从 Harness Seed Repository 学习一套统一 harness operating model，并在目标项目中创建目标本地 README.md、AGENTS.md、ARCHITECTURE.md、.harness/*.yaml、docs 和验证命令。初始化后，目标项目自己的 AGENTS.md、.harness/*.yaml、docs 和 scripts/harness-check 才是长期约束源。
+目标是从 Harness Seed Repository 学习一套统一 harness operating model，并在目标项目中创建目标本地 README.md、AGENTS.md、ARCHITECTURE.md、.harness/policy.yaml、docs 和验证命令。初始化后，目标项目自己的 AGENTS.md、.harness/policy.yaml、docs 和 scripts/harness-check 才是长期约束源。
 
 硬性规则：
 
 1. AGENTS.md 是 Agent 入口文件。
    - AGENTS.md 应保持简短，只做入口地图、强制流程和关键禁令。
-   - 详细规则放入 .harness/*.yaml、docs/*.md、脚本、测试、lint 或 CI。
+   - 详细规则放入 .harness/policy.yaml、docs/*.md、脚本、测试、lint 或 CI。
 
 2. 每个长期工程应有目标本地 .harness policy layer。
-   - .harness/project-policy.yaml：必需文件、必需命令、环境隔离、文档结构。
-   - .harness/workspace-policy.yaml：workspace type、真实 repository 边界和 git 初始化策略。
-   - .harness/git-policy.yaml：什么进 git、什么不进 git、大文件规则、提交规则。
-   - .harness/quality-policy.yaml：setup、lint、test、dev、验证汇报要求。
-   - .harness/architecture-policy.yaml：目录边界、依赖方向和架构规则。
+   - .harness/policy.yaml：统一保存结构、命令、workspace、Git、质量和架构机器规则。
+   - policy.yaml 应保持为可被 harness-check 解析的受限 YAML 子集。
 
 3. 新项目初始化前必须判断 workspace boundary 和 repository boundary。
    - single-repo：当前目录就是一个 git repository。
@@ -38,7 +35,7 @@
    - 如果 workspace/repository 边界不清晰，必须先向用户反馈，不允许直接 git init .。
 
 4. 当用户提出任何以代码为目标的请求时，默认在当前目标工程目录执行初始化检查。
-   - 先读取目标项目本地 AGENTS.md 和 .harness/*.yaml。
+   - 先读取目标项目本地 AGENTS.md 和 .harness/policy.yaml。
    - 如果 policy 缺失，先用 harness seed 的四层模型创建最低本地 harness。
    - Python 项目优先使用 .venv；其他语言按生态选择隔离方式。
    - knowledge-repo 或纯文档任务不强制创建虚拟环境。
@@ -59,7 +56,7 @@
    - 如果某个命令不适用，应输出清晰说明，而不是静默成功。
 
 7. 长期规则不能只写在回复中。
-   - 可机器解析的规则进入 .harness/*.yaml。
+   - 可机器解析的规则进入 .harness/policy.yaml。
    - 能机械化的规则进入脚本、测试、lint 或 CI。
    - docs/*.md 负责解释规则和决策依据。
    - AGENTS.md 只保留任务启动时必须看到的短规则。
@@ -76,11 +73,7 @@
 - README.md
 - AGENTS.md
 - ARCHITECTURE.md
-- .harness/project-policy.yaml
-- .harness/workspace-policy.yaml
-- .harness/git-policy.yaml
-- .harness/quality-policy.yaml
-- .harness/architecture-policy.yaml
+- .harness/policy.yaml
 - docs/product-specs/index.md
 - docs/exec-plans/active/
 - docs/exec-plans/completed/
@@ -99,7 +92,7 @@
 ```text
 创建或初始化任何工程时，先参考本地 harness 指导工程：/Users/wuyou/WorkingZone/harness-engineering。优先阅读 README.md、AGENTS.md、HARNESS_QUICKSTART.md 和 docs/HARNESS_GUIDE.md。
 
-该参考工程是 Harness Seed Repository：先学习统一 harness operating model，再在目标项目创建目标本地 README.md、AGENTS.md、ARCHITECTURE.md、.harness/*.yaml、docs 和验证命令。目标项目初始化完成后，以目标项目本地规则为长期真相源。
+该参考工程是 Harness Seed Repository：先学习统一 harness operating model，再在目标项目创建目标本地 README.md、AGENTS.md、ARCHITECTURE.md、.harness/policy.yaml、docs 和验证命令。目标项目初始化完成后，以目标项目本地规则为长期真相源。
 
 代码任务先执行初始化检查并读取目标项目本地 .harness policy。需要代码依赖时使用独立环境；Python 优先 .venv，其他语言按生态隔离。knowledge-repo 或纯文档任务不强制虚拟环境。
 

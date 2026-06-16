@@ -26,4 +26,4 @@
 ## 验证要求
 
 - 验收标准必须能通过测试、命令、截图、日志或人工检查验证。
-- 与 `ARCHITECTURE.md`、`.harness/*.yaml` 和相关 policy 文档不得冲突。
+- 与 `ARCHITECTURE.md`、`.harness/policy.yaml` 和相关 policy 文档不得冲突。

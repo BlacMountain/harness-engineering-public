@@ -2,7 +2,8 @@
 
 当前正式决策记录：
 
-- `2026-06-15-single-harness-seed-operating-model.md`：保留 `Harness Seed Repository` 名称，采用单一四层 operating model，`.harness/` 作为机器可读政策层，并删除旧模板矩阵与 project type 主路径。
+- `2026-06-15-single-harness-seed-operating-model.md`：已被 `2026-06-16-single-file-machine-policy.md` 部分取代；保留单一四层 operating model 的决策历史。
+- `2026-06-16-single-file-machine-policy.md`：保留 `.harness/` 作为机器可读政策层，但收敛为单一 `.harness/policy.yaml`。
 
 新增决策时，文件名应包含日期和简短主题，例如：
 
