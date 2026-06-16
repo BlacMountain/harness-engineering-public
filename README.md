@@ -25,7 +25,8 @@
 | 内容 | 位置 |
 | --- | --- |
 | 目标、范围、行为和验收标准 | `docs/product-specs/` |
-| 当前非平凡任务的执行计划 | `docs/exec-plans/active/` |
+| 整理前的草稿需求和外部讨论材料 | `docs/exec-plans/prepare/` |
+| 当前任务的执行计划 | `docs/exec-plans/active/` |
 | 已完成任务的结果和验证记录 | `docs/exec-plans/completed/` |
 | 后续事项和技术债 | `docs/exec-plans/tech-debt-tracker.md` |
 | 长期架构、治理或策略决策 | `docs/decisions/` |
@@ -36,7 +37,7 @@
 
 ## 使用流程
 
-具体使用流程见 `HARNESS_QUICKSTART.md`。
+快速使用流程见 `HARNESS_QUICKSTART.md`。
 
 ## 常用命令
 

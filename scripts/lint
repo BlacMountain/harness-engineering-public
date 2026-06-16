@@ -34,6 +34,7 @@ done
 for dir in \
   docs \
   docs/product-specs \
+  docs/exec-plans/prepare \
   docs/exec-plans/active \
   docs/exec-plans/completed \
   docs/decisions \
