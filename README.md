@@ -20,7 +20,7 @@
 
 ## docs 的职责
 
-`docs/` 不只是知识库，也是项目周期管理区：
+`docs/` 负责开发生命周期知识和项目周期记录：
 
 | 内容 | 位置 |
 | --- | --- |
@@ -32,6 +32,8 @@
 | 长期架构、治理或策略决策 | `docs/decisions/` |
 | 外部资料、协议、论文或平台依据 | `docs/references/` |
 | Git、质量、可靠性、安全治理规则 | `docs/GIT_POLICY.md`、`docs/QUALITY.md`、`docs/RELIABILITY.md`、`docs/SECURITY.md` |
+
+目标项目交付文档服务目标项目的用户、部署者或运维者，例如 API 文档、用户手册、部署说明、SDK 文档、operator docs 和产品说明。它们由目标项目团队在约定的交付文档位置管理。
 
 目录内存在 `README.md` 时，以目录本地说明为准。根 `README.md` 只保留总入口和路由。
 

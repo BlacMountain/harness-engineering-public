@@ -7,7 +7,7 @@
 | 层级 | 路径 | 职责 |
 | --- | --- | --- |
 | 入口层 | `README.md`、`AGENTS.md`、`HARNESS_QUICKSTART.md` | 提供入口路由、Agent 行为控制和快速使用流程 |
-| 生命周期知识层 | `ARCHITECTURE.md`、`docs/` | 保存 durable knowledge，并管理规格、计划、完成记录、技术债、决策、参考和治理规则 |
+| 生命周期知识层 | `ARCHITECTURE.md`、`docs/` | 保存开发生命周期知识，并管理规格、计划、完成记录、技术债、决策、参考和治理规则 |
 | 验证层 | `scripts/`、lint、test、CI | 机械化可检查规则，提供可重复验证入口 |
 
 ## 依赖方向
@@ -15,7 +15,7 @@
 1. `README.md` 只做总入口和路由。
 2. `AGENTS.md` 只约束 Agent 在本仓库中的行为。
 3. `HARNESS_QUICKSTART.md` 承载快速使用流程。
-4. `docs/` 是 durable knowledge 和项目周期管理的长期记录系统。
+4. `docs/` 是开发生命周期知识和项目周期管理的长期记录系统。
 5. `ARCHITECTURE.md` 只记录结构不变量、职责边界和变更耦合。
 6. `scripts/` 只执行可机械化检查，不承载长篇政策解释。
 

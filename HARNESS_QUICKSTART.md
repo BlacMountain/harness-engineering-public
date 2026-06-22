@@ -33,6 +33,7 @@ project bootstrap or repair, ask the user before writing it.
 | `docs/decisions/` | Final decision, alternatives, constraints, consequences, and status. |
 | `docs/references/` | Source, date or version, scope, and limitations. |
 | Governance docs | Git and artifact boundaries, quality gates, reliability expectations, and security or trust boundaries. |
+| Delivery docs | API docs, user manuals, deployment guides, SDK docs, operator docs, product docs, and the agreed delivery-doc location. |
 | `scripts/` | Package manager, runtime, and setup/lint/test/dev command behavior. |
 
 Ask concise questions before writing uncertain facts. Prefer grouped questions
@@ -49,11 +50,22 @@ boundary, destructive operation, or user-visible acceptance criteria is unclear.
 | Need to implement a non-trivial change | `docs/exec-plans/active/` |
 | Need to record a durable technical or governance choice | `docs/decisions/` |
 | Need to rely on an external API, paper, platform, law, or protocol | `docs/references/` |
+| Need to create or update project delivery documentation | The target project's agreed delivery-doc location; ask for it when unclear. |
 | Need to change repository, artifact, or Git boundaries | `docs/GIT_POLICY.md` |
 | Need to change setup, lint, test, dev, or done criteria | `docs/QUALITY.md` and validation scripts |
 | Need to change failure, recovery, logs, timeout, or rollback behavior | `docs/RELIABILITY.md` |
 | Need to change secret, auth, permission, input, or trust boundaries | `docs/SECURITY.md` |
 | Need to enforce a repeated rule mechanically | scripts, lint, tests, hooks, or CI |
+
+Lifecycle docs belong to development management: specs, execution plans,
+completed records, decisions, references, quality, reliability, security, and
+Git governance. Delivery docs belong to the target project's user- or
+operator-facing documentation system: API docs, user manuals, deployment guides,
+SDK docs, operator docs, and product docs. Agents may read delivery docs as
+project context. When creating or updating delivery docs, use the target
+project's agreed documentation location. Development references, such as
+third-party API or platform docs used during implementation, route to
+`docs/references/`.
 
 ## 4. Target Harness Transfer
 
