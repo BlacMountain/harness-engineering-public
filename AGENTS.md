@@ -31,6 +31,10 @@ scripts, lint, tests, hooks, or CI.
 - MUST preserve user changes and never revert work unless explicitly requested.
 - MUST keep `AGENTS.md` short and focused on Agent behavior.
 - MUST keep usage workflow details in `HARNESS_QUICKSTART.md`.
+- MUST keep docs and manuals concise, task-specific, and free of no-value
+  background, slogans, boilerplate, generic capability claims, and repetition.
+- MUST tie capability, performance, or effect claims to concrete goals,
+  conditions, and measurable evidence; ask before making unsupported claims.
 - NEVER commit virtual environments, dependency folders, build output,
   coverage, datasets, checkpoints, experiment outputs, secrets, or local env
   files.
