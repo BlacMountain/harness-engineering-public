@@ -29,7 +29,7 @@ project bootstrap or repair, ask the user before writing it.
 | `AGENTS.md` | Agent constraints, verification rules, forbidden operations, and escalation rules. |
 | `ARCHITECTURE.md` | System boundary, components, data flow, external services, and durable structure choices. |
 | `docs/product-specs/` | Goals, non-goals, users, scenarios, behavior, and acceptance criteria. |
-| `docs/exec-plans/` | Draft source, implementation order, risks, rollback, verification commands, and handoff needs. |
+| `docs/exec-plans/` | Draft source, relevant dates, implementation order, risks, rollback, verification commands, and handoff needs. |
 | `docs/decisions/` | Final decision, alternatives, constraints, consequences, and status. |
 | `docs/references/` | Source, date or version, scope, and limitations. |
 | Governance docs | Git and artifact boundaries, quality gates, reliability expectations, and security or trust boundaries. |
@@ -66,6 +66,12 @@ project context. When creating or updating delivery docs, use the target
 project's agreed documentation location. Development references, such as
 third-party API or platform docs used during implementation, route to
 `docs/references/`.
+
+Project-cycle records carry lightweight date context. `prepare/` drafts record
+the capture date and, when known, the source discussion date. `active/` plans
+record the created date and meaningful update dates. `completed/` records
+include completion and verification dates. `tech-debt-tracker.md` keeps its
+`Date` column as the identified date.
 
 ## 4. Target Harness Transfer
 
