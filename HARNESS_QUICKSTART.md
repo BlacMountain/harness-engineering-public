@@ -55,7 +55,8 @@ boundary, destructive operation, or user-visible acceptance criteria is unclear.
 | Need to change setup, lint, test, dev, or done criteria | `docs/QUALITY.md` and validation scripts |
 | Need to change failure, recovery, logs, timeout, or rollback behavior | `docs/RELIABILITY.md` |
 | Need to change secret, auth, permission, input, or trust boundaries | `docs/SECURITY.md` |
-| Need to enforce a repeated rule mechanically | scripts, lint, tests, hooks, or CI |
+| Need to enforce a repeated mechanical rule, static quality rule, formatting rule, document boundary, repository hygiene rule, or artifact boundary | `scripts/lint` or `scripts/audit-*` |
+| Need to verify behavior, regression, runtime path, bug reproduction, acceptance criteria, or user-visible workflow | `tests/` and `scripts/test` |
 
 Lifecycle docs belong to development management: specs, execution plans,
 completed records, decisions, references, quality, reliability, security, and

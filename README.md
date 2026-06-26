@@ -46,8 +46,8 @@
 ## 常用命令
 
 ```bash
-scripts/setup
-scripts/lint
-scripts/test
-scripts/dev
+scripts/setup  # 检查本地前置条件
+scripts/lint   # 结构、静态质量、文档路由和仓库卫生
+scripts/test   # 行为和验收验证
+scripts/dev    # 开发入口；本 seed 仓库仅提示无 dev server
 ```
